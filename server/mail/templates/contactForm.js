@@ -1,4 +1,4 @@
-exports.contact_form = (firstname, lastname, email, phoneNo, message) => {
+exports.contactForm = (firstname, lastname, email, phoneNo, message) => {
 	return `<!DOCTYPE html>
   <html>
   
