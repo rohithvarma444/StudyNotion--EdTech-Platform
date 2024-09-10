@@ -1,6 +1,6 @@
 const User = require("../models/User");
-const { contactForm } = require("../mail/templates/contactForm");
-const { mailSender } = require("../utils/mailSender"); 
+const { contactUsEmail } = require("../mail/templates/ContactFormRes");
+const  mailSender  = require("../utils/mailSender"); 
 require("dotenv").config();
 
 exports.contactUs = async (req, res) => {
