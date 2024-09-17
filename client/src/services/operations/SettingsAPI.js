@@ -3,7 +3,6 @@ import { setUser } from "../../slices/profileSlice";
 import { apiConnector } from "../apiconnector";
 import { settingsEndpoints } from "../apis";
 import { logout } from "./authAPI";
-import { useNavigate } from "react-router-dom";
 
 const {
     UPDATE_DISPLAY_PICTURE_API,
