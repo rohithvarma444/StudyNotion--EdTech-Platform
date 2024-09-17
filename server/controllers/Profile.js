@@ -17,18 +17,18 @@ exports.updateProfile = async (req,res) => {
 
         const userDetails = await User.findById(id);
         const profileId = userDetails.additionalDetails;
-        const profileDetails = await Profile.findById(profileId);
+        const updatedProfileDetails = await Profile.findById(profileId);
 
-        profileDetails.dateOfBirth = dateOfBirth;
-        profileDetails.about = about;
-        profileDetails.gender = gender;
-        profileDetails.contactNumber = contactNumber;
-        await profileDetails.save();
+        updatedProfileDetails.dateOfBirth = dateOfBirth;
+        updatedProfileDetails.about = about;
+        updatedProfileDetails.gender = gender;
+        updatedProfileDetails.contactNumber = contactNumber;
+        await updatedProfileDetails.save();
 
         return res.status(200).json({
             success:true,
             message:"Profile Updated successfully",
-            profileDetails,
+            updatedProfileDetails,
         })
     } catch (error) {
         console.log("Error in handling update profile",error);

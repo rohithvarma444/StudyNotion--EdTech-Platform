@@ -35,8 +35,8 @@ router.post("/reset-password-token",resetPasswordToken);
 router.post("/reset-password",resetPassword);
 
 //profile-routes- tested
-router.post("/deleteaccount",auth,deleteAccount);
-router.post("/updateprofile",auth,updateProfile);
+router.post("/deleteProfile",auth,deleteAccount);
+router.put("/updateProfile",auth,updateProfile);
 router.get("/getalluserdetails",auth,getAllUserDetails);
 router.get("/getEnrolledCourses",auth,getEnrolledCourses);
 router.put("/updatedisplaypricture",auth,updateDisplayPicture);
