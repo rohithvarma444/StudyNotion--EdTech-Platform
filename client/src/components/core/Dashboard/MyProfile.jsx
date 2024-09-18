@@ -16,7 +16,7 @@ function MyProfile() {
             </h1>
             
             {/* Section 1: Profile Info */}
-            <div className='flex items-center justify-between mb-8'>
+            <div className='flex items-center justify-between mb-8 w-10/12'>
                 <div className='flex items-center gap-x-4'>
                     <img 
                         src={user?.image}
