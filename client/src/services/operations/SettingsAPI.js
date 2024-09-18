@@ -103,14 +103,14 @@ export function changePassword(token, formData) {
 }
 
 // Updated deleteProfile function
-export function deleteProfile(token, formData, navigate) {
+export function deleteProfile(token, navigate) {
     return async (dispatch) => {
         const toastId = toast.loading("Loading...");
         try {
             const response = await apiConnector(
                 "DELETE",
                 DELETE_PROFILE_API,
-                formData,
+                null,
                 {
                     Authorization: `Bearer ${token}`, 
                 }
@@ -122,6 +122,7 @@ export function deleteProfile(token, formData, navigate) {
 
             toast.success("Profile Deleted Successfully");
             dispatch(logout(navigate)); 
+            navigate("/");
         } catch (error) {
             console.log("Error", error);
             toast.error("Error in deleting the profile");

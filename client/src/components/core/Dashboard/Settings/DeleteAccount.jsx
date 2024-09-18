@@ -7,7 +7,8 @@ import { deleteProfile } from '../../../../services/operations/SettingsAPI'
 
 function DeleteAccount() {
 
-    const token = useSelector((state)=> state.auth)
+    const {token} = useSelector((state)=> state.auth)
+    console.log(token);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

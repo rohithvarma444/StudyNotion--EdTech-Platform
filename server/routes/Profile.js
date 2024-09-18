@@ -12,7 +12,7 @@ const {
 const { auth,isStudent,isAdmin,isInstructor} = require("../middleswares/auth");
 
 //pprofile routes - tested
-router.delete("/deleteProfile",deleteAccount);
+router.delete("/deleteProfile",auth,deleteAccount);
 router.put("/updateProfile",auth,updateProfile);
 router.get("/getUserDetails",auth,getAllUserDetails);
 

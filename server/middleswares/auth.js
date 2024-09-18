@@ -8,7 +8,9 @@ const User = require("../models/User");
 //auth middleware for all the users (student) and (tutor)
 exports.auth = async(req,res,next) => {
     try {
+        console.log(req.headers);
         const token = req.cookies.token || req.body.token || req.header("Authorization")?.replace("Bearer ", "").trim();
+        console.log("I am here: ",token);
         if(!token){
             return res.status(401).json({
                 success: false,
@@ -18,7 +20,7 @@ exports.auth = async(req,res,next) => {
 
         try{
             const decode = jwt.verify(token,process.env.JWT_SECRET);
-            console.log(decode);
+            console.log("I am decoded: ",decode);
             req.user = decode;
             next();
 
