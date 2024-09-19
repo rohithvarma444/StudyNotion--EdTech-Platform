@@ -7,6 +7,7 @@ const {
     getAllUserDetails,
     updateDisplayPicture,
     getEnrolledCourses,
+    getInstructorCourses
 } =require("../controllers/Profile");
 
 const { auth,isStudent,isAdmin,isInstructor} = require("../middleswares/auth");
@@ -17,8 +18,9 @@ router.put("/updateProfile",auth,updateProfile);
 router.get("/getUserDetails",auth,getAllUserDetails);
 
 //todo: need to check payment routes after frontend intergration
-router.get("/getEnrolledCourses",auth,getEnrolledCourses);
+router.get("/getEnrolledCourses",isStudent,getEnrolledCourses);
 //tested working fine
 router.put("/updateDisplayPicture",auth,updateDisplayPicture);
+router.get("/getInstructorCourses",isInstructor,getInstructorCourses)
 
 module.exports = router 

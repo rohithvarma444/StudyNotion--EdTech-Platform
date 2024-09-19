@@ -2,7 +2,7 @@ import React from 'react'
 
 function IconBtn({
   text,
-  onclick,  // Correct casing
+  onclick, 
   children,
   disabled,
   outline = false,
