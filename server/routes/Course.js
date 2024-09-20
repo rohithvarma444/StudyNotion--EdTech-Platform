@@ -42,7 +42,7 @@ router.post("/getCourseDetails",getCourseDetails);
 //section routes - tested
 router.post("/createSection",auth,isInstructor,createSection);
 router.post("/updateSection",auth,isInstructor,updateSection);
-router.get("/deleteSection",auth,isInstructor,deleteSection);
+router.post("/deleteSection",auth,isInstructor,deleteSection);
 
 //sub-section routes - tested
 router.post("/createSubSection",auth,isInstructor,createSubSection);
