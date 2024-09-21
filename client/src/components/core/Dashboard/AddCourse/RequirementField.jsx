@@ -36,7 +36,7 @@ function RequirementField({ name, label, register, errors, setValue, getValues }
                     type="text"
                     value={requirement}
                     onChange={(e) => setRequirement(e.target.value)}
-                    className='w-full'
+                    className='w-full text-black'
                 />
                 <button
                     type='button'
