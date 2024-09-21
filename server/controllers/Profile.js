@@ -169,7 +169,7 @@ exports.getEnrolledCourses = async (req, res) => {
 
 exports.getInstructorCourses = async (req, res) => {
     try {
-      console.log("I am being called")
+      console.log("I am being called-----------------------------------------------------------------------------------------")
       const userId = req.user.id;
   
       const userDetails = await User.findById(userId).populate("courses");

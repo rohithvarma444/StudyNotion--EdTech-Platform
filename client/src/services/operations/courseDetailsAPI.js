@@ -79,7 +79,7 @@ export const fetchCourseCategories = async () => {
     const toastId = toast.loading("Loading...");
     let result = [];
     try {
-        const response = await apiConnector('POST', COURSE_CATEGORIES_API);
+        const response = await apiConnector('GET', COURSE_CATEGORIES_API);
 
         if (!response?.data?.success) {
             throw new Error(response.data.message);
@@ -97,6 +97,7 @@ export const fetchCourseCategories = async () => {
 // Add Course Details
 export const addCourseDetails = async (data, token) => {
     const toastId = toast.loading("Loading...");
+    console.log("Printing DATA",data[0]);
     let result;
     try {
         const response = await apiConnector('POST', CREATE_COURSE_API, data, {

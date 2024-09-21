@@ -7,10 +7,17 @@ require("dotenv").config();
 exports.createCourse = async (req, res) => {
     try {
         // Fetch data
-        const { courseName, courseDescription, whatYouWillLearn, price, category } = req.body;
+        console.log(req.body);
+        const { courseName, courseDescription, whatYouWillLearn, price, category,instructions } = req.body;
+        console.log("Course Name:", courseName);
+        console.log("Course Description:", courseDescription);
+        console.log("Price:", price);
+        console.log("What You Will Learn:", whatYouWillLearn);
+        console.log("Category:", category);
+        console.log("Instructions:", JSON.parse(instructions));
         const thumbnail = req.files.thumbnailImage;
 
-        if (!courseName || !courseDescription || !whatYouWillLearn || !price || !thumbnail) {
+        if (!courseName || !courseDescription || !whatYouWillLearn || !price ) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required",
@@ -28,7 +35,7 @@ exports.createCourse = async (req, res) => {
             });
         }
 
-        const categoryDetails = await Category.findOne({ name: category });
+        const categoryDetails = await Category.findById(category);
         if (!categoryDetails) {
             return res.status(404).json({
                 success: false,
@@ -36,7 +43,7 @@ exports.createCourse = async (req, res) => {
             });
         }
 
-        // Uploading image to Cloudinary
+        //Uploading image to Cloudinary
         const thumbnailImage = await uploadImageToCloudinary(
             thumbnail,
             process.env.FOLDER_NAME,

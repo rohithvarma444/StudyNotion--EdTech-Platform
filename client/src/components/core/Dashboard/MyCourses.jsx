@@ -19,7 +19,9 @@ function MyCourses() {
         dispatch(setLoading(false));
     };
 
-    fetchInstructorCourses()
+    useEffect(()=> {
+        fetchInstructorCourses();
+    },[token])
 
     return (
         <div className="p-4">
