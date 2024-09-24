@@ -7,8 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCourse, setEditCourse, setStep } from '../../../../../slices/courseSlice';
 import toast from 'react-hot-toast';
 import { createSection, updateSection } from '../../../../../services/operations/courseDetailsAPI';
+import NestedView from './NestedView';
 
-// CourseBuilderForm Component
+
 function CourseBuilderForm() {
 
   const {
