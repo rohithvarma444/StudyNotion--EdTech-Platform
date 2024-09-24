@@ -200,15 +200,14 @@ export const createSubSection = async (data, token) => {
 export const updateSection = async (data, token) => {
     const toastId = toast.loading("Loading...");
     let result = null;
+    console.log(token);
     try {
         const response = await apiConnector(
             'POST',
             UPDATE_SECTION_API,
             data,
             {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                Authorization: `Bearer ${token}`
             }
         );
 

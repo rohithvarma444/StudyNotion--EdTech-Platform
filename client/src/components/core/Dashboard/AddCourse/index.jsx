@@ -2,7 +2,6 @@ import React from 'react'
 import RenderSteps from './RenderSteps'
 
 
-
 function AddCourse() {
   return (
     <div className='text-white'>

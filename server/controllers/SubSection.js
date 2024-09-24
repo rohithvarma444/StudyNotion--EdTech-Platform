@@ -55,6 +55,7 @@ exports.createSubSection = async(req,res) => {
 //update subSection
 exports.updateSubSection = async(req,res) => {
     try {
+        console.log("TOKEN-----: ",req.headers.authorization);
         const {subSectionId,title,timeDuration,description} = req.body;
         
         const subSection = await SubSection.findById(subSectionId);

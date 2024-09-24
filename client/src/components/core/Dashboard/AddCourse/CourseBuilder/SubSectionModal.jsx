@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react';
-import UploadThumbnail from '../UploadThumbnail';
+import Upload from '../Upload';
 import IconBtn from '../../../../common/IconBtn';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSubSection, updateSubSection } from '../../../../../services/operations/courseDetailsAPI';
@@ -116,7 +116,7 @@ function SubSectionModal({
                 </button>
             </div>
             <form action="" onSubmit={handleSubmit(onSubmit)}>
-                <UploadThumbnail
+                <Upload
                     name="lectureVideo"
                     label="Lecture Video"
                     register={register}
