@@ -17,6 +17,9 @@ function SubSectionModal({
     setModalData, // Corrected prop name
 }) {
 
+
+    console.log(modalData)
+
     const {
         register,
         setValue,
@@ -92,10 +95,10 @@ function SubSectionModal({
         // Handle add
         if (add) {
             const formData = new FormData();
-            formData.append("sectionId", modalData.sectionId); // Assuming correct sectionId in modalData
-            formData.append("Title", data.lectureTitle);
-            formData.append("Description", data.lectureDescription);
-            formData.append("Video", data.lectureVideo);
+            formData.append("sectionId", modalData); // Assuming correct sectionId in modalData
+            formData.append("title", data.lectureTitle);
+            formData.append("description", data.lectureDescription);
+            formData.append("video", data.lectureVideo);
 
             setLoading(true);
             const result = await createSubSection(formData, token); // Added await

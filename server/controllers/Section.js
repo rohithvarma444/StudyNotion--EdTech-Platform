@@ -54,11 +54,24 @@ exports.updateSection = async(req,res) => {
         const {sectionName, sectionId} = req.body;
 
         const  section = await Section.findByIdAndUpdate(sectionId,{sectionName},{new:true});
+        const updatedCourse = await Course.findOne({
+            courseContent: sectionId // Directly check for the sectionId in courseContent
+          })
+          .populate({
+            path: 'courseContent',  // Populate the courseContent field
+            model: 'Section',       // Ensure it uses the Section model
+          })
+          .exec();
 
 
+        console.log("-----------------------------");
+        console.log(updatedCourse);
+        console.log("-----------------------------");
+       
         return res.status(200).json({
             success: true,
-            message: "Section updated sucessfully"
+            message: "Section updated sucessfully",
+            data:updatedCourse
         })
     } catch (error) {
         console.error("Error updating section:", error); 

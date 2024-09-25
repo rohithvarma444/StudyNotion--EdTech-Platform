@@ -75,6 +75,8 @@ function CourseBuilderForm() {
 
     if (result) {
       dispatch(setCourse(result));
+      console.log(course);
+      console.log(course?.courseContent);
       setEditSectionName(null);
       setValue("sectionName", "");
     }
@@ -83,6 +85,7 @@ function CourseBuilderForm() {
   };
 
   const handleChangeEditSectionName = (sectionId, sectionName) => {
+    console.log(editSectionName,"----->",sectionId);
     if (editSectionName === sectionId) {
       cancelEdit();
       return;

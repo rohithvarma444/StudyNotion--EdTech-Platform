@@ -136,7 +136,7 @@ exports.getCourseDetails = async (req, res) => {
             populate: {
                 path: "additionalDetails"
             },
-        }).populate("Cateogry")  // Updated from tag to category
+        }).populate("Cateogry")  
           .populate("ratingAndReviews")
           .populate({
             path: "courseContent",
