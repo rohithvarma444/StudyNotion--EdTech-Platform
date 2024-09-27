@@ -194,5 +194,5 @@ exports.getInstructorCourses = async (req, res) => {
         message: "Error in fetching the course details",
       });
     }
-  };
+};
   

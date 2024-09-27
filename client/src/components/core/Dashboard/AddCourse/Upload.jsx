@@ -6,7 +6,7 @@ import { useSelector } from "react-redux"
 import "video-react/dist/video-react.css"
 import { Player } from "video-react"
 
-export default function Upload({
+function Upload({
   name,
   label,
   register,
@@ -121,3 +121,6 @@ export default function Upload({
     </div>
   )
 }
+
+
+export default Upload;

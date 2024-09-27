@@ -5,6 +5,9 @@ const {
     createCourse,
     getAllCourses,
     getCourseDetails,
+    deleteCourse,
+    getFullCourseDetails,
+    editCourse,
 } = require("../controllers/Course");
 
 const {
@@ -38,6 +41,9 @@ const { auth,isStudent,isAdmin,isInstructor} = require("../middleswares/auth");
 router.post("/createCourse",auth,isInstructor,createCourse);
 router.get("/getAllCourses",getAllCourses);
 router.post("/getCourseDetails",getCourseDetails);
+router.post("/deleteCourse",isInstructor,deleteCourse);
+router.post("/getFullCourseDetails",getFullCourseDetails)
+router.post("/editCourse",editCourse)
 
 //section routes - tested
 router.post("/addSection",auth,isInstructor,createSection);
