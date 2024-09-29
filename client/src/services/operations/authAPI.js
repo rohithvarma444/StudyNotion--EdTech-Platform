@@ -96,6 +96,8 @@ export function login(email, password, navigate) {
         password,
       })
 
+      console.log(response)
+
       console.log("LOGIN API RESPONSE............", response)
 
       if (!response.data.success) {

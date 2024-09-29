@@ -31,7 +31,7 @@ const courseSchema = new mongoose.Schema({
     thumbnail: {
         type: String
     },
-    Cateogry:{
+    Category:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category"
     },

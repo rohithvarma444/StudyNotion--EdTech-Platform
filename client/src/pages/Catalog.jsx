@@ -19,7 +19,7 @@ function Catalog() {
             setLoading(true);
             try {
                 const res = await apiConnector('GET', categories.CATEGORIES_API);
-
+                console.log(res)
                 if (res?.data?.success) {
                     const category = res?.data?.data?.find((ct) =>
                         ct.name.split(' ').join('-').toLowerCase() === catalogName
@@ -58,6 +58,7 @@ function Catalog() {
         }
     }, [categoryId]);
 
+
     return (
         <div className="text-white">
             {/* Breadcrumb */}
@@ -80,7 +81,7 @@ function Catalog() {
                     <p>New</p>
                 </div>
                 <div>
-                    <CourseSlider Ccurses={catalogPageData?.data?.selectedCategory?.courses} />
+                    <CourseSlider Courses={catalogPageData?.data?.selectedCategory?.courses} />
                 </div>
             </div>
 

@@ -78,7 +78,7 @@ exports.categoryPageDetails = async(req,res) => {
         //finding top-selling courses
         const allCourses = await Course.find({ status: "Published" }).populate([
             {
-                path: "ratingsAndReviews"
+                path: "ratingAndReviews"
             },
             {
                 path: "instructor"

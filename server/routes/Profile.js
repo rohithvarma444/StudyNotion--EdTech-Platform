@@ -18,9 +18,9 @@ router.put("/updateProfile",auth,updateProfile);
 router.get("/getUserDetails",auth,getAllUserDetails);
 
 //todo: need to check payment routes after frontend intergration
-router.get("/getEnrolledCourses",isStudent,getEnrolledCourses);
+router.get("/getEnrolledCourses",auth,isStudent,getEnrolledCourses);
 //tested working fine
 router.put("/updateDisplayPicture",auth,updateDisplayPicture);
-router.get("/getInstructorCourses",isInstructor,getInstructorCourses)
+//router.get("/getInstructorCourses",isInstructor,getInstructorCourses)
 
 module.exports = router 

@@ -92,7 +92,7 @@ function CourseBuilderForm() {
             disabled={loading}
             placeholder="Add a section to build your course"
             {...register("sectionName", { required: "Section name is required" })}
-            className="form-style w-full"
+            className="form-style w-full text-black"
           />
           {errors.sectionName && (
             <span className="ml-2 text-xs tracking-wide text-pink-200">

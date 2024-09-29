@@ -76,7 +76,8 @@ exports.signUp = async(req,res) => {
     
     
         // checking for input fields
-        console.log(email);
+        console.log("OTP in the backend: ",otp)
+        console.log("email in the backend: ",email);
         if( !firstName || !lastName || !password || !confirmPassword || !otp){
             return res.status(403).json({
                 success: false,
@@ -106,13 +107,14 @@ exports.signUp = async(req,res) => {
     
         //checking for valid OTP
         const recentOTP = await OTP.find({email: email}).sort({created_at : -1}).limit(1);
-        console.log(recentOTP)
         if(recentOTP.length == 0){
             return res.status(400).json({
                 success: false,
                 message: "OTP not valid"
             })
         } else if(otp != recentOTP[0].otp){
+            console.log("Recent OTP: ",recentOTP[0].otp)
+            console.log("OTP: ",otp);
             return res.status(400).json({
                 success:false,
                 message: "Invalid OTP",

@@ -43,6 +43,7 @@ export function updateDispalyPicture(token, formData) {
 // Updated updateProfile function
 export function updateProfile(token, formData) {
     return async (dispatch) => {
+        console.log("PRINTING FORMDATA:--",formData)
         const toastId = toast.loading("Loading....");
         try {
             const response = await apiConnector(
@@ -60,8 +61,9 @@ export function updateProfile(token, formData) {
             }
 
             toast.success("Successfully updated the profile details");
-            const userImage = response.data.updatedProfileDetails.image
-                ? response.data.updatedProfileDetails.image
+            console.log(response);
+            const userImage = response.data.updatedProfileDetails?.image
+                ? response.data?.updatedProfileDetails?.image
                 : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.updatedUserDetails.firstName} ${response.data.updatedUserDetails.lastName}`;
 
             dispatch(setUser({ ...response.data.updatedUserDetails, image: userImage }));

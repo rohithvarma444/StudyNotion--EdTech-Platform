@@ -19,6 +19,7 @@ exports.updateProfile = async (req,res) => {
         const userDetails = await User.findById(id);
         const profileId = userDetails.additionalDetails;
         const updatedProfileDetails = await Profile.findById(profileId);
+        console.log(updatedProfileDetails);
 
         updatedProfileDetails.dateOfBirth = dateOfBirth;
         updatedProfileDetails.about = about;
@@ -26,10 +27,11 @@ exports.updateProfile = async (req,res) => {
         updatedProfileDetails.contactNumber = contactNumber;
         await updatedProfileDetails.save();
 
+        console.log(updatedProfileDetails)
         return res.status(200).json({
             success:true,
             message:"Profile Updated successfully",
-            updatedProfileDetails,
+            data:updatedProfileDetails,
         })
     } catch (error) {
         console.log("Error in handling update profile",error);
@@ -167,32 +169,4 @@ exports.getEnrolledCourses = async (req, res) => {
     }
 };
 
-exports.getInstructorCourses = async (req, res) => {
-    try {
-      console.log("I am being called-----------------------------------------------------------------------------------------")
-      const userId = req.user.id;
-  
-      const userDetails = await User.findById(userId).populate("courses");
-  
-      if (!userDetails) {
-        console.log("No such Instructor");
-        return res.status(403).json({
-          success: false,
-          message: "No such user found to fetch courses",
-        });
-      }
-  
-      return res.status(200).json({
-        success: true,
-        message: "Fetched the courses successfully", 
-        data: userDetails.courses,
-      });
-    } catch (error) {
-      console.error("Error in fetching the instructor courses:", error);
-      return res.status(500).json({
-        success: false,
-        message: "Error in fetching the course details",
-      });
-    }
-};
   

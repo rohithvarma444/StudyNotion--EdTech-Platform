@@ -8,6 +8,7 @@ import RatingStars from '../../common/RatingStars';
 
 function CourseCard({course,Height}) {
 
+  console.log("In CourseCard:  ",course)
   const [avgReviewCount,setAvgReviewCount] = useState(0);
 
   useEffect(() => {

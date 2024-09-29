@@ -6,7 +6,7 @@ import { useSelector } from "react-redux"
 import "video-react/dist/video-react.css"
 import { Player } from "video-react"
 
-function Upload({
+export default function Upload({
   name,
   label,
   register,
@@ -48,7 +48,7 @@ function Upload({
   }
 
   useEffect(() => {
-    register(name, { required: true })
+    register(name, { required: false })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [register])
 
@@ -97,7 +97,7 @@ function Upload({
             className="flex w-full flex-col items-center p-6"
             {...getRootProps()}
           >
-            <input {...getInputProps()} ref={inputRef} type="file" />
+            <input {...getInputProps()} ref={inputRef} />
             <div className="grid aspect-square w-14 place-items-center rounded-full bg-pure-greys-800">
               <FiUploadCloud className="text-2xl text-yellow-50" />
             </div>
@@ -121,6 +121,3 @@ function Upload({
     </div>
   )
 }
-
-
-export default Upload;

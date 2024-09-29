@@ -13,7 +13,6 @@ require("dotenv").config();
 exports.createCourse = async (req, res) => {
     try {
         // Fetch data
-        console.log(req.body);
         const { courseName, courseDescription, whatYouWillLearn, price, category,instructions } = req.body;
         console.log("Course Name:", courseName);
         console.log("Course Description:", courseDescription);
@@ -21,7 +20,7 @@ exports.createCourse = async (req, res) => {
         console.log("What You Will Learn:", whatYouWillLearn);
         console.log("Category:", category);
         console.log("Instructions:", JSON.parse(instructions));
-        const thumbnail = req.files.thumbnailImage;
+        const thumbnail = req.files?.thumbnailImage? req.files.thumbnailImage:null;
 
         if (!courseName || !courseDescription || !whatYouWillLearn || !price ) {
             return res.status(400).json({
@@ -50,12 +49,14 @@ exports.createCourse = async (req, res) => {
         }
 
         //Uploading image to Cloudinary
-        const thumbnailImage = await uploadImageToCloudinary(
-            thumbnail,
-            process.env.FOLDER_NAME,
-            1000,
-            1000
-        );
+        //if(thumbnail){
+        //  const thumbnailImage = await uploadImageToCloudinary(
+        //    thumbnail,
+        //    process.env.FOLDER_NAME,
+        //    1000,
+        //    1000
+        //  );
+        //}
 
         const newCourse = await Course.create({
             courseName,
@@ -64,7 +65,6 @@ exports.createCourse = async (req, res) => {
             whatYouWillLearn: whatYouWillLearn,
             price,
             category: categoryDetails._id,  // Updated from tag to category
-            thumbnail: thumbnailImage.secure_url,
         });
 
         // Add the newCourse to the courses array in instructor
@@ -179,9 +179,9 @@ exports.editCourse = async (req, res) => {
     try {
       const { courseId } = req.body;
       const course = await Course.findById(courseId)
-        .populate("category")
+        .populate("Category")
         .populate("courseContent")
-        .populate("ratingsAndReviews")
+        .populate("ratingAndReviews")
         .exec();
   
       if (!course) {
@@ -215,8 +215,8 @@ exports.editCourse = async (req, res) => {
       await course.save();
   
       const updatedCourse = await Course.findById(courseId)
-        .populate("category")
-        .populate("ratingsAndReviews") 
+        .populate("Category")
+        .populate("ratingAndReviews") 
         .populate({
           path: "courseContent",
           populate: {
@@ -359,4 +359,33 @@ exports.deleteCourse = async (req, res) => {
     }
   };
   
+
+exports.getInstructorCourses = async (req, res) => {
+    try {
+      console.log("I am being called-----------------------------------------------------------------------------------------")
+      const userId = req.user.id;
+  
+      const userDetails = await User.findById(userId).populate("courses");
+  
+      if (!userDetails) {
+        console.log("No such Instructor");
+        return res.status(403).json({
+          success: false,
+          message: "No such user found to fetch courses",
+        });
+      }
+  
+      return res.status(200).json({
+        success: true,
+        message: "Fetched the courses successfully", 
+        data: userDetails.courses,
+      });
+    } catch (error) {
+      console.error("Error in fetching the instructor courses:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Error in fetching the course details",
+      });
+    }
+};
   

@@ -21,6 +21,9 @@ import { ACCOUNT_TYPE } from "./utils/constants";
 import { useSelector } from "react-redux";
 import MyCourses from "./components/core/Dashboard/MyCourses";
 import AddCourse from "./components/core/Dashboard/AddCourse";
+import Catalog from "./pages/Catalog"
+import CourseDetails from "./pages/CourseDetails"
+
 
 function App() {
 
@@ -35,6 +38,8 @@ function App() {
       <Toaster position="top-center" reverseOrder={false} />
 
       <Routes>
+      <Route path="catalog/:catalogName" element={<Catalog/>} />
+      <Route path="courses/:courseId" element={<CourseDetails/>} />
         <Route path="/" element={<Home />} />
         <Route
           path="signup"
