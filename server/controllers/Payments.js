@@ -7,6 +7,8 @@ const { courseEnrollmentEmail } = require("../mail/templates/courseEnrollment");
 const crypto = require("crypto");
 require("dotenv").config();
 const sendPaymentSuccessEmail = require("../mail/templates/paymentSuccessEmail")
+const {CourseProgress} = require("../models/CourseProgress")
+
 
 // capturing the payment
 exports.capturePayment = async (req, res) => {
@@ -106,11 +108,19 @@ const enrollStudents = async(courses,userId,res) => {
                 return res.status(500).json({success:false,message:"Course not Found"});
             }
 
+            const courseProgress = await CourseProgress.create({
+                courseId:courseId,
+                userId:userId,
+                completedVideo:[],
+            })
+
+            
             const enrolledStudent = await User.findByIdAndUpdate(
                 userId,
                 {
                     $push:{
                         courses: courseId,
+                        courseProgress:courseProgress._id
                     }
                 },{new:true}
             )
