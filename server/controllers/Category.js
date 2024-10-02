@@ -70,12 +70,10 @@ exports.categoryPageDetails = async(req,res) => {
             })
         }
 
-        //other courses from this category
         const differentCourses = await Category.find({
             _id: { $ne: categoryId }
         }).populate("courses").exec();
 
-        //finding top-selling courses
         const allCourses = await Course.find({ status: "Published" }).populate([
             {
                 path: "ratingAndReviews"

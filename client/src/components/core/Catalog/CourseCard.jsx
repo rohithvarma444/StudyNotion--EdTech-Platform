@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect,useState } from 'react';
 import GetAvgRating from '../../../utils/avgRating';
 import RatingStars from '../../common/RatingStars';
@@ -10,6 +10,8 @@ function CourseCard({course,Height}) {
 
   console.log("In CourseCard:  ",course)
   const [avgReviewCount,setAvgReviewCount] = useState(0);
+  const navigate = useNavigate();
+  console.log("In Course Card: ",course)
 
   useEffect(() => {
     const count = GetAvgRating(course.ratingsAndReviews);
@@ -19,7 +21,7 @@ function CourseCard({course,Height}) {
     <div>
       <Link>
         <div>
-          <div>
+          <div onClick={navigate(`courses/${course?._id}`)}>
             <img src={course?.thumbnail} alt="Course Thumbnail" className={`${Height} rounded-xl object-cover w-full`}/>
           </div>
           <div>

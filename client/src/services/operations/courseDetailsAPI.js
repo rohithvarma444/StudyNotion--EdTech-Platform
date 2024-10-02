@@ -51,7 +51,7 @@ export const getAllCourses = async () => {
 //fetching specific courseDetails
 export const fetchCourseDetails = async (courseId) => {
     const toastId = toast.loading("Loading...")
-    let result = []
+    let result = null
 
     try {
         const response = await apiConnector(

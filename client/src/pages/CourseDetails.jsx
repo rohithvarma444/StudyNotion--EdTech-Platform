@@ -35,6 +35,7 @@ function CourseDetails() {
         };
         getCourseData();
     }, [courseId]);
+    console.log("Printing Course Data: =====  ",courseData)
 
     useEffect(() => {
         if (courseData?.data?.courseDetails?.ratingsAndReviews) {
@@ -81,7 +82,7 @@ function CourseDetails() {
         return <div>Loading...</div>;
     }
 
-    if (!courseData.success) {
+    if (!courseData) {
         return <Error />;
     }
 

@@ -8,7 +8,7 @@ function Cart() {
 
     const {total,totalItems} = useSelector((state)=> state.cart);
   return (
-    <div>
+    <div className='text-white'>
         <div>
             <h1>Your Whishlist</h1>
             <p>{total} in your cart</p>

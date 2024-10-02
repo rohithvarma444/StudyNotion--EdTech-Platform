@@ -23,6 +23,11 @@ import MyCourses from "./components/core/Dashboard/MyCourses";
 import AddCourse from "./components/core/Dashboard/AddCourse";
 import Catalog from "./pages/Catalog"
 import CourseDetails from "./pages/CourseDetails"
+import Cart from "./components/core/Dashboard/Cart";
+import EditCourse from "./components/core/Dashboard/EditCourse";
+import ViewCourse from "./pages/ViewCourse";
+
+
 
 
 function App() {
@@ -82,7 +87,7 @@ function App() {
           }
         />
         <Route
-          path="about"
+          path="/about"
           element={
             <OpenRoute>
               <About />
@@ -100,16 +105,40 @@ function App() {
           <Route path="dashboard/my-profile" element={<MyProfile />} />
           <Route path="dashboard/settings" element={<Settings />} />
           {
-            user?.accountType === ACCOUNT_TYPE.STUDENT && <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
+              user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+              <Route path="dashboard/cart" element={<Cart />} />
+              <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
+              </>
+            )
           }
           {
             user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && 
             <>
              <Route path="dashboard/my-courses" element={<MyCourses />} />
              <Route path="dashboard/add-course" element={<AddCourse />} />
+             <Route path="dashboard/edit-course/:courseId" element={<EditCourse />} />
             </>
           }
         </Route>
+
+        <Route 
+        element={
+          <PrivateRoute>
+            <ViewCourse/>
+          </PrivateRoute>
+        }
+        >
+          {
+            user?.ACCOUNT_TYPE === ACCOUNT_TYPE.STUDENT && (
+              <>
+              <Route path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
+              element={<VideoDetails />} />
+              </>
+            )
+          }
+        </Route>
+
         <Route path="*" element={<Error />} />
       </Routes>
     </div>
