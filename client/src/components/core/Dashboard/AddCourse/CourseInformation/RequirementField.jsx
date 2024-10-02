@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-function RequirementField({ name, label, register, errors, setValue, getValues }) {
+function RequirementField({ name, label, register, errors, setValue, getValues,editCourse,course }) {
     const [requirement, setRequirement] = useState("");
     const [requirementList, setRequirementList] = useState([]);
-
     useEffect(() => {
         register(name, {
             required: true,
@@ -14,6 +13,12 @@ function RequirementField({ name, label, register, errors, setValue, getValues }
     useEffect(() => {
         setValue(name, requirementList);
     }, [requirementList, setValue, name]);
+
+    useEffect(() => {
+        if(editCourse){
+            setRequirementList(course.instructions);
+        }
+    },[])
 
     const handleAddRequirement = () => {
         if (requirement) {

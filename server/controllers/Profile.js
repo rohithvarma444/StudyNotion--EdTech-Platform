@@ -4,74 +4,73 @@ const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 
 //updating user Profile
-exports.updateProfile = async (req,res) => {
-    try {
-        const {dateOfBirth = "",about = "",contactNumber = "", gender} = req.body;
-        const id = req.user.id;
+exports.updateProfile = async (req, res) => {
+	try {
+        console.log("received")
+        const {
+            firstName,
+            lastName,
+            dateOfBirth,
+            gender,
+            contactNumber,
+            about,
+        } = req.body
 
-        if(!contactNumber || !gender){
-            return res.status(400).json({
-                success:false,
-                message:"All fields are required",
-            });
-        }
+        console.log("PARSED")
 
-        const userDetails = await User.findById(id);
-        const profileId = userDetails.additionalDetails;
-        const updatedProfileDetails = await Profile.findById(profileId);
-        console.log(updatedProfileDetails);
+        const userId = req.user.id;
 
-        updatedProfileDetails.dateOfBirth = dateOfBirth;
-        updatedProfileDetails.about = about;
-        updatedProfileDetails.gender = gender;
-        updatedProfileDetails.contactNumber = contactNumber;
-        await updatedProfileDetails.save();
+        const userDetails = await User.findById(userId);
+        const profileDetails = await Profile.findById(userDetails.additionalDetails)
 
-        console.log(updatedProfileDetails)
-        return res.status(200).json({
-            success:true,
-            message:"Profile Updated successfully",
-            data:updatedProfileDetails,
-        })
-    } catch (error) {
-        console.log("Error in handling update profile",error);
-        return res.status(500).json({
-            success: false,
-            message:"Error occured during the updating user profile",
-        })
-    }
-}
-//deleting user account
-exports.deleteAccount = async (req, res) => {
-    try {
-        const id = req.user.id;
-        console.log(id);
-        const userDetails = await User.findById(id);
-        if (!userDetails) {
+        console.log("GOT MODELS")
+        if(!userDetails){
             return res.status(404).json({
                 success: false,
-                message: "User not found",
-            });
+                message: "User not found"
+            })
+        }
+        if(!profileDetails){
+            console.log("got wrong model profile")
         }
 
-        // Delete the associated profile
-        const profileId = userDetails.additionalDetails;
-        if (profileId) {
-            await Profile.findByIdAndDelete(profileId);
-        }
-        await User.findByIdAndDelete(id);
+        userDetails.firstName = firstName;
+        console.log(firstName);
+        userDetails.lastName = lastName;
+        console.log(firstName);
+
+        profileDetails.dateOfBirth = dateOfBirth;
+        console.log(typeof dateOfBirth);
+        console.log(firstName);
+        profileDetails.gender = gender;
+        console.log(firstName);
+        profileDetails.contactNumber = contactNumber;
+        console.log(firstName);
+        profileDetails.about = about;
+        console.log(firstName);
+
+        await profileDetails.save();
+        await userDetails.save();
+
+        console.log("REACHED HERE")
+
+
+        const updatedUserDetails = await User.findById(userId).
+        populate("additionalDetails")
+        .populate("courses")
+        .populate("courseProgress").exec();
+
+        console.log("Finally sent this: ",updatedUserDetails);
 
         return res.status(200).json({
-            success: true,
-            message: "Successfully deleted user", 
-        });
+            success:true,
+            message: "User Details have been updated sucessfully",
+            data:updatedUserDetails
+        })
+        
 
     } catch (error) {
-        console.error("Error in deleting account:", error); 
-        return res.status(500).json({
-            success: false,
-            message: "Error occurred while deleting the user account",
-        });
+        
     }
 };
 
@@ -80,7 +79,10 @@ exports.getAllUserDetails = async(req,res) => {
     try {
         const id = req.user.id;
 
-        const userDetails = await User.findById(id).populate("additionalDetails").exec();
+        const userDetails = await User.findById(id).populate("additionalDetails")
+        .populate("courses")
+        .populate("completedCourses")
+        .exec()
         console.log(userDetails);
 
         return res.status(200).json({
@@ -126,8 +128,9 @@ exports.updateDisplayPicture = async (req, res) => {
             userId,
             { image: image.secure_url },
             { new: true }
-        );
+        ).populate("additionalDetails").populate("courses").populate("courseProgress");
 
+        console.log("User Details",updatedProfile);
         return res.status(200).json({
             success: true,
             message: "Image updated successfully",

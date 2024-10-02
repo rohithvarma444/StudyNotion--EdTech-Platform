@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import IconBtn from '../../common/IconBtn';
+import { getUserDetails } from '../../../services/operations/profileAPI';
+
 
 function MyProfile() {
     const { user } = useSelector((state) => state.profile);
     const navigate = useNavigate(); 
+    const {token} = useSelector((state) => state.auth)
+
+    useEffect(() => {
+        const getUserFullDetails = async() => {
+            const response = getUserDetails(token,navigate)
+            console.log("In My Profile",response)
+        }
+        getUserFullDetails();
+    },[])
 
     return (
         <div className='text-white p-8 bg-richblack-900 rounded-md max-w-4xl mx-auto items-center'>

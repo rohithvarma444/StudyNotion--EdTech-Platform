@@ -53,6 +53,7 @@ exports.showAllCategories = async(req,res) => {
 exports.categoryPageDetails = async(req,res) => {
     try{
         const { categoryId } = req.body;
+        console.log("1");
 
         if(!categoryId){
             return res.status(400).json({
@@ -69,7 +70,7 @@ exports.categoryPageDetails = async(req,res) => {
                 message: "Courses not found for this category",
             })
         }
-
+        console.log("1");
         const differentCourses = await Category.find({
             _id: { $ne: categoryId }
         }).populate("courses").exec();
@@ -83,12 +84,12 @@ exports.categoryPageDetails = async(req,res) => {
             }
         ]).exec();
 
-
+        console.log("1");
         const topCourses = allCourses
             .sort((a, b) => b.studentsEnrolled.length - a.studentsEnrolled.length)
             .slice(0, 10);
 
-
+            console.log("1");
         return res.status(200).json({
             success: true,
             data:{

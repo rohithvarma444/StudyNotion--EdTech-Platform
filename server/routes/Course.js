@@ -42,8 +42,8 @@ const {updateCourseProgress} = require("../controllers/CourseProgress")
 router.post("/createCourse",auth,isInstructor,createCourse);
 router.get("/getAllCourses",getAllCourses);
 router.post("/getCourseDetails",getCourseDetails);
-router.post("/deleteCourse",isInstructor,deleteCourse);
-router.post("/getFullCourseDetails",getFullCourseDetails)
+router.delete("/deleteCourse",auth,isInstructor,deleteCourse);
+router.post("/getFullCourseDetails",auth,getFullCourseDetails)
 router.post("/editCourse",editCourse)
 router.get("/getInstructorCourses",auth,isInstructor,getInstructorCourses)
 

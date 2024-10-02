@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { useLocation, NavLink } from 'react-router-dom';
 
 function SidebarLink({ link, iconName }) {
-  console.log(iconName);
   const Icon = Icons[iconName]; 
   const location = useLocation();
   const dispatch = useDispatch();

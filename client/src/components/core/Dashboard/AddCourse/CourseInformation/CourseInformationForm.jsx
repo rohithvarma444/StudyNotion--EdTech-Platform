@@ -45,6 +45,7 @@ export default function CourseInformationForm() {
     // if form is in edit mode
     if (editCourse) {
       // console.log("data populated", editCourse)
+      console.log(course);
       setValue("courseTitle", course.courseName)
       setValue("courseShortDesc", course.courseDescription)
       setValue("coursePrice", course.price)
@@ -145,20 +146,20 @@ export default function CourseInformationForm() {
     formData.append("category", data.courseCategory)
     formData.append("status", COURSE_STATUS.DRAFT)
     formData.append("instructions", JSON.stringify(data.courseRequirements))
-    formData.append("thumbnailImage", data.courseImage)
+    formData.append("thumbnailImage", data.thumbnailImage)
     setLoading(true)
     const result = await addCourseDetails(formData, token)
     if (result) {
       dispatch(setStep(2))
       dispatch(setCourse(result))
-    }
+    } 
     setLoading(false)
   }
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6 text-black"
+      className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6"
     >
       {/* Course Title */}
       <div className="flex flex-col space-y-2">
@@ -169,7 +170,7 @@ export default function CourseInformationForm() {
           id="courseTitle"
           placeholder="Enter Course Title"
           {...register("courseTitle", { required: true })}
-          className="form-style w-full"
+          className="form-style w-full text-black"
         />
         {errors.courseTitle && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">
@@ -186,7 +187,7 @@ export default function CourseInformationForm() {
           id="courseShortDesc"
           placeholder="Enter Description"
           {...register("courseShortDesc", { required: true })}
-          className="form-style resize-x-none min-h-[130px] w-full"
+          className="form-style resize-x-none min-h-[130px] w-full text-black"
         />
         {errors.courseShortDesc && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">
@@ -210,7 +211,7 @@ export default function CourseInformationForm() {
                 value: /^(0|[1-9]\d*)(\.\d+)?$/,
               },
             })}
-            className="form-style w-full !pl-12"
+            className="form-style w-full !pl-12 text-black"
           />
           <HiOutlineCurrencyRupee className="absolute left-3 top-1/2 inline-block -translate-y-1/2 text-2xl text-richblack-400" />
         </div>
@@ -229,7 +230,7 @@ export default function CourseInformationForm() {
           {...register("courseCategory", { required: true })}
           defaultValue=""
           id="courseCategory"
-          className="form-style w-full"
+          className="form-style w-full text-black"
         >
           <option value="" disabled>
             Choose a Category
@@ -259,7 +260,7 @@ export default function CourseInformationForm() {
       />
       {/* Course Thumbnail Image */}
       <Upload
-        name="courseImage"
+        name="thumbnailImage"
         label="Course Thumbnail"
         register={register}
         setValue={setValue}
@@ -275,7 +276,7 @@ export default function CourseInformationForm() {
           id="courseBenefits"
           placeholder="Enter benefits of the course"
           {...register("courseBenefits", { required: true })}
-          className="form-style resize-x-none min-h-[130px] w-full"
+          className="form-style resize-x-none min-h-[130px] w-full text-black"
         />
         {errors.courseBenefits && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">
@@ -291,6 +292,8 @@ export default function CourseInformationForm() {
         setValue={setValue}
         errors={errors}
         getValues={getValues}
+        editCourse={editCourse}
+        course={course}
       />
       {/* Next Button */}
       <div className="flex justify-end gap-x-2">

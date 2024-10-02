@@ -26,8 +26,7 @@ import CourseDetails from "./pages/CourseDetails"
 import Cart from "./components/core/Dashboard/Cart";
 import EditCourse from "./components/core/Dashboard/EditCourse";
 import ViewCourse from "./pages/ViewCourse";
-
-
+import VideoDetails from "./components/core/ViewCourse/VideoDetails"
 
 
 function App() {

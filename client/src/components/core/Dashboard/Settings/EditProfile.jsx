@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { updateProfile } from '../../../../services/operations/SettingsAPI';
 import IconBtn from '../../../common/IconBtn';
 import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../../../../slices/profileSlice';
+
 
 const genders = ["Male", "Female", "Non-Binary", "Prefer not to say", "Other"];
 
@@ -12,7 +14,7 @@ function EditProfile() {
     const { user } = useSelector((state) => state.profile);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    
     const {
         register,
         handleSubmit,
@@ -20,9 +22,10 @@ function EditProfile() {
       } = useForm()
     
       const submitProfileForm = async (data) => {
-        // console.log("Form Data - ", data)
+
+        console.log("This is the DATA: ",data)
         try {
-          dispatch(updateProfile(token, data))
+          dispatch(updateProfile(token,data))
         } catch (error) {
           console.log("ERROR MESSAGE - ", error.message)
         }
@@ -45,7 +48,7 @@ function EditProfile() {
                     name="firstName"
                     id="firstName"
                     placeholder="Enter first name"
-                    className="form-style"
+                    className="form-style text-black"
                     {...register("firstName", { required: true })}
                     defaultValue={user?.firstName}
                   />
@@ -64,7 +67,7 @@ function EditProfile() {
                     name="lastName"
                     id="lastName"
                     placeholder="Enter first name"
-                    className="form-style"
+                    className="form-style text-black"
                     {...register("lastName", { required: true })}
                     defaultValue={user?.lastName}
                   />
@@ -85,8 +88,8 @@ function EditProfile() {
                     type="date"
                     name="dateOfBirth"
                     id="dateOfBirth"
-                    className="form-style"
-                    {...register("dateofBirth", {
+                    className="form-style text-black"
+                    {...register("dateOfBirth", {
                       required: {
                         value: true,
                         message: "Please enter your Date of Birth.",
@@ -112,7 +115,7 @@ function EditProfile() {
                     type="text"
                     name="gender"
                     id="gender"
-                    className="form-style"
+                    className="form-style text-black" 
                     {...register("gender", { required: true })}
                     defaultValue={user?.additionalDetails?.gender}
                   >
@@ -142,7 +145,7 @@ function EditProfile() {
                     name="contactNumber"
                     id="contactNumber"
                     placeholder="Enter Contact Number"
-                    className="form-style"
+                    className="form-style text-black"
                     {...register("contactNumber", {
                       required: {
                         value: true,
@@ -168,7 +171,7 @@ function EditProfile() {
                     name="about"
                     id="about"
                     placeholder="Enter Bio Details"
-                    className="form-style"
+                    className="form-style text-black"
                     {...register("about", { required: true })}
                     defaultValue={user?.additionalDetails?.about}
                   />

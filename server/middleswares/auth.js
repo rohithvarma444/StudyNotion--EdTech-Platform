@@ -11,7 +11,6 @@ exports.auth = async(req,res,next) => {
         console.log(req.headers);
         const token = req.cookies.token || req.body.token || req.header("Authorization")?.replace("Bearer ", "").trim();
         console.log("REQUEST --------------------------------------");
-        console.log(req);
         console.log(req.header("Authorization"));
         console.log("END-OF-REQUEST---------------------------------");
         if(!token){
