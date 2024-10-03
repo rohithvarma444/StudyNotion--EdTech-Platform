@@ -27,26 +27,30 @@ function CourseDetails() {
         const getCourseData = async () => {
             try {
                 const result = await fetchCourseDetails(courseId);
-                console.log("Printing course data:", result);
-                setCourseData(result);
+                console.log("Printing course data:", result[0]);
+                setCourseData(result[0]);
             } catch (error) {
                 console.error("Error fetching course data:", error);
             }
         };
         getCourseData();
     }, [courseId]);
-    console.log("Printing Course Data: =====  ",courseData)
+    
 
+
+    console.log(courseData)
     useEffect(() => {
-        if (courseData?.data?.courseDetails?.ratingsAndReviews) {
+        if (courseData?.ratingsAndReviews) {
             const count = GetAvgRating(courseData.data.courseDetails.ratingsAndReviews);
             setAvgReviewCount(count);
         }
-    }, [courseData]);
+    }, []);
 
+
+    console.log("Hello here",courseData?.courseContent)
     useEffect(() => {
         let lectures = 0;
-        courseData?.data?.courseDetails?.courseContent?.forEach((sec) => {
+        courseData?.courseContent?.forEach((sec) => {
             lectures += sec.subSection.length || 0;
         });
         setTotalNoOfLectures(lectures);
@@ -58,7 +62,7 @@ function CourseDetails() {
         setIsActive(
             !isActive.includes(id)
              ? isActive.concat(id)
-             : isActive.filter((e)=> e != id)
+             : isActive.filter((e)=> e !== id)
 
         )
     }
@@ -86,6 +90,11 @@ function CourseDetails() {
         return <Error />;
     }
 
+
+    console.log(avgReviewCount);
+
+
+
     const {
         _id: course_id,
         courseName,
@@ -98,10 +107,10 @@ function CourseDetails() {
         instructor,
         studentsEnrolled,
         createdAt,
-    } = courseData.data?.courseDetails;
+    } = courseData;
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center text-white">
             <div className="flex relative flex-col justify-start p-8">
                 <p>{courseName}</p>
                 <p>{courseDescription}</p>
@@ -123,7 +132,7 @@ function CourseDetails() {
 
                 <div>
                     <CourseDetailsCard
-                        course={courseData?.data?.courseDetails}
+                        course={courseData}
                         setConfirmationModal={setConfirmationModal}
                         handleBuyCourse={handleBuyCourse}
                     />
@@ -143,7 +152,7 @@ function CourseDetails() {
                     <div>
                         <span>{courseContent.length} section(s)</span>
                         <span>{totalNoOfLectures} lectures</span>
-                        <span>{courseData.data?.totalDuration} total length</span>
+                        <span>{courseData?.totalDuration} total length</span>
                     </div>
 
                     <div>

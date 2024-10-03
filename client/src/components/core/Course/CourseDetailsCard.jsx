@@ -5,6 +5,8 @@ import { toast } from 'react-hot-toast';
 import { ACCOUNT_TYPE } from '../../../utils/constants';
 import { addToCart } from '../../../slices/cartSlice';
 import copy from 'copy-to-clipboard';
+import { FaShareFromSquare } from "react-icons/fa6";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
     const { user } = useSelector((state) => state.profile);
@@ -12,7 +14,7 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { thumbnail: ThumbnailImage, price: CurrentPrice } = course;
+    const { thumbnail: ThumbnailImage, price: CurrentPrice, instructions } = course;
 
     const handleAddToCart = () => {
         try {
@@ -22,7 +24,6 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
             }
 
             if (token) {
-                console.log("Dispatching add to cart");
                 dispatch(addToCart(course));
                 toast.success("Course added to cart");
                 return;
@@ -54,32 +55,32 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
     };
 
     return (
-        <div>
+        <div className='p-4 bg-richblack-700 rounded-lg flex flex-col gap-3'>
             <img
                 src={ThumbnailImage}
                 alt="Thumbnail Image"
-                className="max-h-[300px] min-h-[180px] w-[400px] rounded-xl"
+                className="w-full object-cover rounded-lg"
             />
 
-            <div>Rs. {CurrentPrice}</div>
+            <div className='text-2xl font-semibold'>Rs. {CurrentPrice}</div>
 
             <div className="flex flex-col gap-y-2">
                 <button
-                    className="bg-yellow-50 w-fit text-richblack-900"
+                    className="w-full py-2 text-black font-bold bg-yellow-300 rounded-md"
                     onClick={
-                        user && course?.studentEnrolled.includes(user?._id)
-                            ? () => navigate("/dashboard/enrolled-courses")
+                        user && course?.studentsEnrolled.includes(user?._id)
+                            ? () => navigate("/dashboard/enrolled_courses")
                             : handleBuyCourse
                     }
                 >
-                    {user && course?.studentEnrolled.includes(user?._id)
+                    {user && Array.isArray(course?.studentsEnrolled) && course.studentsEnrolled.includes(user._id)
                         ? "Go to Course"
                         : "Buy Course"}
                 </button>
 
-                {!course?.studentEnrolled.includes(user?._id) && (
+                {!course.studentsEnrolled?.includes(user?._id) && (
                     <button
-                        className="bg-yellow-50 w-fit text-richblack-900"
+                        className='w-full py-2 font-bold bg-richblack-900 rounded-md'
                         onClick={handleAddToCart}
                     >
                         Add to Cart
@@ -88,13 +89,25 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
             </div>
 
             <div>
-                <button
-                    className="mx-auto items-center gap-2 p-6 text-yellow-50"
-                    onClick={handleShare}
-                >
-                    Share
-                </button>
+                <h1 className='font-semibold'>Course Requirements :</h1>
+                <div className='flex flex-col gap-1'>
+                    {instructions?.map((item, ind) => (
+                        <div key={ind} className='flex gap-2 text-[#46ae46] items-center text-[14px]'>
+                            <FaArrowRightLong size={14} />
+                            <p>{item}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
+
+            <button
+                type='button'
+                className='flex gap-1 text-yellow-300 items-center font-bold justify-center'
+                onClick={handleShare}
+            >
+                <FaShareFromSquare size={15} />
+                <p>Share</p>
+            </button>
         </div>
     );
 }

@@ -1,43 +1,45 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import GetAvgRating from '../../../utils/avgRating';
 import RatingStars from '../../common/RatingStars';
 
+function CourseCard({ course, Height }) {
+  const [avgReviewCount, setAvgReviewCount] = useState(0);
 
+    useEffect(()=> {
+        const count = GetAvgRating(course.ratingAndReviews);
+        setAvgReviewCount(count);
+    },[course])
 
-function CourseCard({course,Height}) {
-
-  console.log("In CourseCard:  ",course)
-  const [avgReviewCount,setAvgReviewCount] = useState(0);
-  const navigate = useNavigate();
-  console.log("In Course Card: ",course)
-
-  useEffect(() => {
-    const count = GetAvgRating(course.ratingsAndReviews);
-    setAvgReviewCount(count);
-  },[course])
   return (
-    <div>
-      <Link>
-        <div>
-          <div onClick={navigate(`courses/${course?._id}`)}>
-            <img src={course?.thumbnail} alt="Course Thumbnail" className={`${Height} rounded-xl object-cover w-full`}/>
+    <>
+      <Link to={`/course/${course._id}`}>
+        <div className="">
+          <div className="rounded-lg">
+            <img
+              src={course?.thumbnail}
+              alt="course thumnail"
+              className={`${Height} w-full rounded-xl object-cover `}
+            />
           </div>
-          <div>
-            <p>{course?.courseName}</p>
-            <p>{course?.instructor?.firstName} {course?.instructor?.lastName}</p>
-            <div>
-              <span>{avgReviewCount || 0}</span>
+          <div className="flex flex-col gap-2 px-1 py-3">
+            <p className="text-xl text-richblack-5">{course?.courseName}</p>
+            <p className="text-sm text-richblack-50">
+              {course?.instructor?.firstName} {course?.instructor?.lastName}
+            </p>
+            <div className="flex items-center gap-2">
+              <span className="text-yellow-5">{avgReviewCount || 0}</span>
               <RatingStars Review_Count={avgReviewCount} />
-              <span>{course?.ratingAndReviews?.length}Ratings</span>
+              <span className="text-richblack-400">
+                {course?.ratingAndReviews?.length} Ratings
+              </span>
             </div>
-            <p>{course?.price}</p>
+            <p className="text-xl text-richblack-5">Rs. {course?.price}</p>
           </div>
         </div>
       </Link>
-    </div>
+    </>
   );
 }
 
-export default CourseCard
+export default CourseCard;

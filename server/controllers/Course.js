@@ -178,7 +178,7 @@ exports.getCourseDetails = async (req, res) => {
             populate: {
                 path: "additionalDetails"
             },
-        }).populate("Category")  
+        }).populate("category")  
           .populate("ratingAndReviews")
           .populate({
             path: "courseContent",
@@ -298,7 +298,7 @@ exports.getFullCourseDetails = async (req, res) => {
           },
         })
         .populate("ratingAndReviews")
-        .populate("Category")
+        .populate("category")
         .exec();
   
       // Check if the course exists

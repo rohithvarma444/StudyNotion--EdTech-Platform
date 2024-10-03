@@ -62,7 +62,12 @@ exports.categoryPageDetails = async(req,res) => {
             })
         }
 
-        const selectedCategory = await Category.findById(categoryId).populate("courses").exec();
+        const selectedCategory = await Category.findById(categoryId).populate({
+            path: 'courses',
+            populate: {
+                path: 'instructor'
+            }
+        });
 
         if(!selectedCategory){
             return res.status(404).json({
@@ -73,7 +78,12 @@ exports.categoryPageDetails = async(req,res) => {
         console.log("1");
         const differentCourses = await Category.find({
             _id: { $ne: categoryId }
-        }).populate("courses").exec();
+        }).populate({
+            path:"courses",
+            populate: {
+                path: 'instructor'
+            }
+        })
 
         const allCourses = await Course.find({ status: "Published" }).populate([
             {

@@ -33,7 +33,6 @@ function App() {
 
 
   const {user} =  useSelector((state) => state.profile);
-  console.log(user);
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <Navbar />
@@ -43,7 +42,7 @@ function App() {
 
       <Routes>
       <Route path="catalog/:catalogName" element={<Catalog/>} />
-      <Route path="courses/:courseId" element={<CourseDetails/>} />
+      <Route path="course/:courseId" element={<CourseDetails/>} />
         <Route path="/" element={<Home />} />
         <Route
           path="signup"
