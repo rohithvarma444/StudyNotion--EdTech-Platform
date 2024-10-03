@@ -9,6 +9,8 @@ import RatingStars from '../components/common/RatingStars';
 import { formattedDate } from '../utils/dateFormatter';
 import CourseDetailsCard from '../components/core/Course/CourseDetailsCard';
 import ConfirmationModal from '../components/common/ConfirmationModal';
+import CourseAccordionBar from "../components/core/Course/CourseAccordianBar";
+import Footer from "../components/common/Footer";
 
 function CourseDetails() {
     const { user } = useSelector((state) => state.profile);
@@ -27,7 +29,6 @@ function CourseDetails() {
         const getCourseData = async () => {
             try {
                 const result = await fetchCourseDetails(courseId);
-                console.log("Printing course data:", result[0]);
                 setCourseData(result[0]);
             } catch (error) {
                 console.error("Error fetching course data:", error);
@@ -35,19 +36,14 @@ function CourseDetails() {
         };
         getCourseData();
     }, [courseId]);
-    
 
-
-    console.log(courseData)
     useEffect(() => {
         if (courseData?.ratingsAndReviews) {
             const count = GetAvgRating(courseData.data.courseDetails.ratingsAndReviews);
             setAvgReviewCount(count);
         }
-    }, []);
+    }, [courseData]);
 
-
-    console.log("Hello here",courseData?.courseContent)
     useEffect(() => {
         let lectures = 0;
         courseData?.courseContent?.forEach((sec) => {
@@ -56,16 +52,14 @@ function CourseDetails() {
         setTotalNoOfLectures(lectures);
     }, [courseData]);
 
-
-    const [isActive, setIsActive] = useState(Array(0));
+    const [isActive, setIsActive] = useState([]);
     const handleActive = (id) => {
         setIsActive(
             !isActive.includes(id)
-             ? isActive.concat(id)
-             : isActive.filter((e)=> e !== id)
-
-        )
-    }
+                ? [...isActive, id]
+                : isActive.filter((e) => e !== id)
+        );
+    };
 
     const handleBuyCourse = () => {
         if (token) {
@@ -83,17 +77,12 @@ function CourseDetails() {
     };
 
     if (loading || !courseData) {
-        return <div>Loading...</div>;
+        return <div className="flex justify-center items-center h-screen text-white">Loading...</div>;
     }
 
     if (!courseData) {
         return <Error />;
     }
-
-
-    console.log(avgReviewCount);
-
-
 
     const {
         _id: course_id,
@@ -110,27 +99,60 @@ function CourseDetails() {
     } = courseData;
 
     return (
-        <div className="flex flex-col items-center text-white">
-            <div className="flex relative flex-col justify-start p-8">
-                <p>{courseName}</p>
-                <p>{courseDescription}</p>
-                <div className="flex gap-x-2">
-                    <span>{avgReviewCount}</span>
-                    <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
-                    <span>{`(${ratingAndReviews.length} reviews)`}</span>
-                    <span>{`(${studentsEnrolled.length} students enrolled)`}</span>
+        <div className="flex flex-col items-center text-white p-4 w-full">
+            <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto">
+                {/* Course Info Section */}
+                <div className="flex-1 p-8">
+                    <p className="text-2xl font-semibold">{courseName}</p>
+                    <p className="text-lg mb-4">{courseDescription}</p>
+                    <div className="flex gap-x-2 mb-4">
+                        <span className="text-yellow-25">{avgReviewCount}</span>
+                        <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
+                        <span>{`(${ratingAndReviews.length} reviews)`}</span>
+                        <span>{`(${studentsEnrolled.length} students enrolled)`}</span>
+                    </div>
+                    <div className="mb-2">
+                        <p><span className='font-bold'>Created By</span> {`${instructor.firstName} ${instructor.lastName}`}</p>
+                    </div>
+                    <div className="flex gap-x-3 mb-4">
+                        <p><span className='font-bold'>Created At</span> {formattedDate(createdAt)}</p>
+                        <p>English</p>
+                    </div>
+                    <div className="mb-8 border-dotted border-4 p-3">
+                        <p className="text-lg font-semibold">What you'll Learn</p>
+                        <div className="text-md">{whatYouWillLearn}</div>
+                    </div>
+                    <div className="mb-8">
+                        <p className="text-lg font-semibold">Course Content:</p>
+                        <div className="flex gap-x-3 justify-between mb-4">
+                            <div>
+                                <span>{courseContent.length} section(s)</span>
+                                <span>{totalNoOfLectures} lectures</span>
+                                <span>{courseData?.totalDuration} total length</span>
+                            </div>
+                            <div>
+                                <button className="text-yellow-25" onClick={() => setIsActive([])}>
+                                    Collapse all Sections
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Course Details Accordion */}
+                    <div className="py-4">
+                        {courseContent?.map((section, index) => (
+                            <CourseAccordionBar
+                                course={courseData}
+                                key={index}
+                                isActive={isActive}
+                                handleActive={handleActive}
+                            />
+                        ))}
+                    </div>
                 </div>
 
-                <div>
-                    <p>Created By {`${instructor.firstName}`}</p>
-                </div>
-
-                <div className="flex gap-x-3">
-                    <p>Created At {formattedDate(createdAt)}</p>
-                    <p>English</p>
-                </div>
-
-                <div>
+                {/* Course Details Card */}
+                <div className="w-full lg:w-1/3 p-4 lg:p-8">
                     <CourseDetailsCard
                         course={courseData}
                         setConfirmationModal={setConfirmationModal}
@@ -139,31 +161,32 @@ function CourseDetails() {
                 </div>
             </div>
 
-            <div>
-                <div>What you'll Learn</div>
-                <div>{whatYouWillLearn}</div>
-            </div>
-
-            <div>
-                <div>
-                    <p>Course Content: </p>
+            {/* Author Details */}
+            <div className="mb-12 py-4 w-full max-w-7xl mx-auto">
+                <p className="text-[28px] font-semibold">Author</p>
+                <div className="flex items-center gap-4 py-4">
+                    <img
+                        src={
+                            instructor.image
+                                ? instructor.image
+                                : `https://api.dicebear.com/5.x/initials/svg?seed=${instructor.firstName} ${instructor.lastName}`
+                        }
+                        alt="Author"
+                        className="h-14 w-14 rounded-full object-cover"
+                    />
+                    <p className="text-lg">{`${instructor.firstName} ${instructor.lastName}`}</p>
                 </div>
-                <div className="flex gap-x-3 justify-between">
-                    <div>
-                        <span>{courseContent.length} section(s)</span>
-                        <span>{totalNoOfLectures} lectures</span>
-                        <span>{courseData?.totalDuration} total length</span>
-                    </div>
-
-                    <div>
-                        <button onClick={() => setIsActive([])}>
-                            Collapse all Sections
-                        </button>
-                    </div>
-                </div>
+                <p className="text-richblack-50">
+                    {instructor?.additionalDetails?.about}
+                </p>
             </div>
 
             {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
+            
+            {/* Footer Section */}
+            <div className="w-full">
+                <Footer />
+            </div>
         </div>
     );
 }

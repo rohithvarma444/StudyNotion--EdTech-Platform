@@ -9,7 +9,7 @@ const {
 
 const { auth,isStudent,isAdmin,isInstructor} = require("../middleswares/auth");
 
-router.post("/capturePatment",auth,isStudent,capturePayment);
+router.post("/capturePayment",auth,isStudent,capturePayment);
 router.post("/VerifyPayment",auth,isStudent,verifyPayment);
 router.post("/sendPaymentSuccessEmail", auth, isStudent, sendPaymentSuccessEmail);
 
