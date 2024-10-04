@@ -402,7 +402,16 @@ exports.getInstructorCourses = async (req, res) => {
       console.log("I am being called-----------------------------------------------------------------------------------------")
       const userId = req.user.id;
   
-      const userDetails = await User.findById(userId).populate("courses");
+      const userDetails = await User.findById(userId)
+      .populate({
+        path: 'courses',
+        populate: {
+          path: 'courseContent',
+          populate: {
+            path: 'subSection'
+          }
+        }
+      });
   
       if (!userDetails) {
         console.log("No such Instructor");
@@ -410,8 +419,7 @@ exports.getInstructorCourses = async (req, res) => {
           success: false,
           message: "No such user found to fetch courses",
         });
-      }
-  
+      }  
       return res.status(200).json({
         success: true,
         message: "Fetched the courses successfully", 
@@ -425,4 +433,3 @@ exports.getInstructorCourses = async (req, res) => {
       });
     }
 };
-  

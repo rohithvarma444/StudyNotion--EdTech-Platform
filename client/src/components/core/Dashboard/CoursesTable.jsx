@@ -38,6 +38,26 @@ function CoursesTable({ courses, setCourses }) {
   }
 
 
+  const calculateDuration = (course) => {
+    let totalDuration = 0;
+
+
+    console.log(course);
+    course.courseContent.forEach(content => {
+      content.subSection.forEach(subSec => {
+          totalDuration += parseFloat(subSec.timeDuration); // Convert to number
+      });
+  });
+
+    const hours = Math.floor(totalDuration / 3600);
+    const minutes = Math.floor((totalDuration % 3600) / 60);
+    
+    return `${hours} H ${minutes} M`;
+  };
+
+  console.log("In the Main Page: ",courses[0].courseContent[0].subSection[0].timeDuration);
+
+
   return (
     <>
       <Table className="rounded-xl border border-richblack-800 ">
@@ -109,7 +129,7 @@ function CoursesTable({ courses, setCourses }) {
                   </div>
                 </Td>
                 <Td className="text-sm font-medium text-richblack-100">
-                  2hr 30min
+                  {calculateDuration(course)}
                 </Td>
                 <Td className="text-sm font-medium text-richblack-100">
                   ₹{course.price}
