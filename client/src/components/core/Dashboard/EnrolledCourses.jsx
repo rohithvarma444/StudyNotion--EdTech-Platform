@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getEnrolledCourses as fetchEnrolledCourses } from '../../../services/operations/profileAPI';
 import ProgressBar from '@ramonak/react-progress-bar';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function EnrolledCourses() {
   const { token } = useSelector((state) => state.auth);
   const [enrolledCourses, setEnrolledCourses] = useState(null);
+  const navigate = useNavigate();
 
   const loadEnrolledCourses = async () => {
     try {
@@ -22,6 +26,28 @@ function EnrolledCourses() {
     }
   }, [token]);
 
+
+
+  const calculateDuration = (course) => {
+    let totalDuration = 0;
+
+
+    console.log(course);
+    course.courseContent.forEach(content => {
+      content.subSection.forEach(subSec => {
+          totalDuration += parseFloat(subSec.timeDuration); 
+      });
+  });
+
+    const hours = Math.floor(totalDuration / 3600);
+    const minutes = Math.floor((totalDuration % 3600) / 60);
+    
+    return `${hours} H ${minutes} M`;
+  };
+
+
+  console.log(enrolledCourses)
+
   return (
     <div className='text-white flex flex-col items-center p-8'>
       <div className='text-4xl font-bold mb-6'>Enrolled Courses</div>
@@ -37,7 +63,10 @@ function EnrolledCourses() {
             <p>Progress</p>
           </div>
           {enrolledCourses.map((course, index) => (
-            <div key={index} className='grid grid-cols-3 gap-6 items-center mb-6 bg-gray-800 p-4 rounded-lg shadow-lg'>
+            <div key={index} className='grid grid-cols-3 gap-6 items-center mb-6 bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-richblack-600'
+            onClick={() => navigate(`/course/${course._id}`)}
+            
+            >
               <div className='flex items-center space-x-4'>
                 <img 
                   src={course.thumbnail} 
@@ -51,7 +80,7 @@ function EnrolledCourses() {
               </div>
 
               <div className='text-center'>
-                <p className='text-lg font-semibold'>{course?.totalDuration}</p>
+                <p className='text-lg font-semibold'>{calculateDuration(course)}</p>
               </div>
 
               <div>

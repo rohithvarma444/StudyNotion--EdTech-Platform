@@ -140,14 +140,12 @@ function CourseDetails() {
 
                     {/* Course Details Accordion */}
                     <div className="py-4">
-                        {courseContent?.map((section, index) => (
+                       
                             <CourseAccordionBar
                                 course={courseData}
-                                key={index}
                                 isActive={isActive}
                                 handleActive={handleActive}
                             />
-                        ))}
                     </div>
                 </div>
 

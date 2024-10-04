@@ -54,6 +54,8 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
         }
     };
 
+    console.log("Here in the course Content Page: ",course.courseContent);
+
     return (
         <div className='p-4 bg-richblack-700 rounded-lg flex flex-col gap-3'>
             <img
@@ -69,7 +71,7 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
                     className="w-full py-2 text-black font-bold bg-yellow-300 rounded-md"
                     onClick={
                         user && course?.studentsEnrolled.includes(user?._id)
-                            ? () => navigate("/dashboard/enrolled_courses")
+                            ? () => navigate(`/view-course/${course._id}/section/${course.courseContent[0]._id}/sub-section/${course.courseContent[0].subSection[0]._id}`)
                             : handleBuyCourse
                     }
                 >

@@ -366,6 +366,8 @@ export const fetchInstructorCourses = async (token) => {
           Authorization: `Bearer ${token}`,
         }
       )
+
+      console.log("Get Full Course Details: ",response.data.data)
       console.log("COURSE_FULL_DETAILS_API API RESPONSE............", response)
   
       if (!response.data.success) {

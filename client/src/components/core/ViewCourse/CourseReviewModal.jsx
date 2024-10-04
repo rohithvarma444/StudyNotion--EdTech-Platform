@@ -42,7 +42,7 @@ function CourseReviewModal({setReviewModal}) {
   return (
     <>
 
-      <div className='flex flex-col'>
+      <div className='flex flex-col text-white'>
         <div className='flex flex-row justify-between bg-richblack-800'>
             <div className=''>
                 Add Review

@@ -7,7 +7,8 @@ const { courseEnrollmentEmail } = require("../mail/templates/courseEnrollment");
 const crypto = require("crypto");
 require("dotenv").config();
 const sendPaymentSuccessEmail = require("../mail/templates/paymentSuccessEmail");
-const { CourseProgress } = require("../models/CourseProgress");
+const CourseProgress = require("../models/CourseProgress")
+
 
 // Capturing the payment
 exports.capturePayment = async (req, res) => {
@@ -76,6 +77,10 @@ exports.verifyPayment = async (req, res) => {
 
     if (expectedSignature === razorpay_signature) {
         try {
+
+            console.log("--------------------------------");
+            console.log("Signature Verified");
+            console.log("---------------------------------")
             await enrollStudents(courses, userId);
             return res.status(200).json({ success: true, message: "Payment verified and students enrolled" });
         } catch (error) {
@@ -94,19 +99,21 @@ const enrollStudents = async (courses, userId) => {
             const enrolledCourse = await Course.findOneAndUpdate(
                 { _id: courseId },
                 { $push: { studentsEnrolled: userId } },
-                { new: true } // Correctly place the options
+                { new: true } 
             );
 
             if (!enrolledCourse) {
                 throw new Error("Course not found");
             }
 
+            console.log("Step-1 ")
             const courseProgress = await CourseProgress.create({
                 courseId: courseId,
                 userId: userId,
                 completedVideo: [],
             });
 
+            console.log("Step-2");
             const enrolledStudent = await User.findByIdAndUpdate(
                 userId,
                 {
@@ -118,6 +125,7 @@ const enrollStudents = async (courses, userId) => {
                 { new: true }
             );
 
+            console.log("Step-3");
             if (enrolledStudent) {
                 await mailSender(
                     enrolledStudent.email,
