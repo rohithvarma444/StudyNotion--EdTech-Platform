@@ -113,8 +113,9 @@ export function deleteProfile(token, navigate) {
             }
 
             toast.success("Profile Deleted Successfully");
-            dispatch(logout(navigate)); 
+            dispatch(logout(navigate));
             navigate("/");
+            
         } catch (error) {
             console.log("Error", error);
             toast.error("Error in deleting the profile");

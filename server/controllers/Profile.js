@@ -1,4 +1,5 @@
 const Course = require("../models/Course");
+const CourseProgress = require("../models/CourseProgress");
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
@@ -158,6 +159,10 @@ exports.getEnrolledCourses = async (req, res) => {
                 }
             }
         });
+
+
+
+        
         
 
         if (!userDetails) {
@@ -180,5 +185,94 @@ exports.getEnrolledCourses = async (req, res) => {
         });
     }
 };
+
+
+exports.instructorDashboard = async (req, res) => {
+
+
+    console.log("I am Here at instructorDashboard");
+    try {
+        const userId = req.user.id;
+        const courseDetails = await Course.find({
+            instructor: userId,
+        });
+
+        const courseData = courseDetails.map((course) => {
+            const totalStudentsEnrolled = course.studentsEnrolled.length;
+            const totalAmountGenerated = course.price * totalStudentsEnrolled;
+
+            return {
+                _id: course._id,
+                courseName: course.courseName,
+                courseDescription: course.courseDescription,
+                totalStudentsEnrolled,
+                totalAmountGenerated,
+            };
+        });
+
+
+        console.log("----------------------------------")
+        console.log(courseData);
+        console.log("------------------------------")
+
+        res.status(200).json({
+            success: true,
+            message: "Successfully fetched the data",
+            courses: courseData,
+        });
+
+    } catch (error) {
+        console.error(error); 
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching the data.",
+            error: error.message, 
+        });
+    }
+};
+
+
+exports.deleteProfile = async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const userDetails = await User.findById(userId);
+
+        if (!userDetails) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        if (userDetails.accountType === "Student") {
+            await Course.updateMany(
+                { studentsEnrolled: userId },
+                { $pull: { studentsEnrolled: userId } }
+            );
+
+            await CourseProgress.deleteMany({ user: userId }); // 
+        }
+
+        if (userDetails.accountType === "Instructor") {
+            await Course.deleteMany({ instructor: userId });
+        }
+
+        await User.findByIdAndDelete(userId);
+
+        return res.status(200).json({
+            success: true,
+            message: "User has been deleted successfully"
+        });
+
+    } catch (error) {
+        console.error("Error deleting profile:", error); 
+        return res.status(500).json({
+            success: false,
+            message: "An error occurred while deleting the user",
+            error: error.message 
+        });
+    }
+}
 
   

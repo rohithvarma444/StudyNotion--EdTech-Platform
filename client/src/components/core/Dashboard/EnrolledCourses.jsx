@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { getEnrolledCourses as fetchEnrolledCourses } from '../../../services/operations/profileAPI';
 import ProgressBar from '@ramonak/react-progress-bar';
 import { useNavigate } from 'react-router-dom';
-
-
+import { BsClockFill } from "react-icons/bs";
+import Footer from '../../common/Footer';
 
 function EnrolledCourses() {
   const { token } = useSelector((state) => state.auth);
@@ -49,15 +49,16 @@ function EnrolledCourses() {
   console.log(enrolledCourses)
 
   return (
+    <>
     <div className='text-white flex flex-col items-center p-8'>
-      <div className='text-4xl font-bold mb-6'>Enrolled Courses</div>
+      <div className='text-4xl mb-6 justify-start'>Enrolled Courses</div>
       {!enrolledCourses ? (
         <div className='text-lg'>Loading...</div>
       ) : !enrolledCourses.length ? (
         <p className='text-lg'>You have not enrolled in any course yet.</p>
       ) : (
-        <div className='w-full max-w-4xl'>
-          <div className='grid grid-cols-3 gap-6 border-b border-gray-600 pb-4 mb-4 text-lg font-semibold'>
+        <div className='w-full max-w-full mx-auto'>
+          <div className='grid grid-cols-3 gap-x-10 border-b border-gray-600 pb-4 mb-4 text-lg font-semibold'>
             <p>Course Name</p>
             <p>Duration</p>
             <p>Progress</p>
@@ -80,7 +81,7 @@ function EnrolledCourses() {
               </div>
 
               <div className='text-center'>
-                <p className='text-lg font-semibold'>{calculateDuration(course)}</p>
+                <p className='text-lg font-semibold flex flex-row gap-2'> <BsClockFill /> {calculateDuration(course)}   </p>
               </div>
 
               <div>
@@ -99,6 +100,7 @@ function EnrolledCourses() {
         </div>
       )}
     </div>
+    </>
   );
 }
 

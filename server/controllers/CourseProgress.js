@@ -26,6 +26,11 @@ exports.updateCourseProgress = async (req, res) => {
             });
         }
 
+        // Ensure completedVideos is initialized as an array
+        if (!courseProgress.completedVideos) {
+            courseProgress.completedVideos = [];
+        }
+
         if (courseProgress.completedVideos.includes(subSectionId)) {
             return res.status(400).json({
                 success: false,
@@ -49,3 +54,4 @@ exports.updateCourseProgress = async (req, res) => {
         });
     }
 };
+

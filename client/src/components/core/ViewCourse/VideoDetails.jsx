@@ -82,6 +82,7 @@ function VideoDetails() {
 
     const handleLectureCompletion = async () => {
         setLoading(true);
+        console.log("Logging in here handleLectureCompletion");
         const res = await markLectureAsComplete({ courseId, subSectionId }, token);
         if (res) {
             dispatch(updateCompletedLectures(subSectionId));
@@ -111,7 +112,7 @@ function VideoDetails() {
                                     {!completedLectures.includes(subSectionId) && (
                                         <IconBtn
                                             disabled={loading}
-                                            onClick={handleLectureCompletion}
+                                            onclick={handleLectureCompletion}
                                             text={!loading ? "Mark As Completed" : "Loading..."}
                                         />
                                     )}

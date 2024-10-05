@@ -5,7 +5,7 @@ import { profileEndpoints } from "../apis";
 import { courseEndpoints } from "../apis";
 import { logout } from "./authAPI";
 
-const { GET_USER_DETAILS_API, GET_USER_ENROLLED_COURSES_API } = profileEndpoints;
+const { GET_USER_DETAILS_API, GET_USER_ENROLLED_COURSES_API,GET_INSTRUCTOR_DATA_API } = profileEndpoints;
 const {GET_ALL_INSTRUCTOR_COURSES_API} = courseEndpoints;
 
 
@@ -92,4 +92,31 @@ export async function getInstructorCourses(token) {
   }
   toast.dismiss(toastId);
   return result;
+}
+
+
+export async function getInstructorData(token){
+  const toastId = toast.loading("Loading...")
+  let result = [];
+
+  try {
+    
+    const response = await apiConnector(
+      'GET',
+      GET_INSTRUCTOR_DATA_API,
+      null,
+      {
+        Authorization: `Bearer ${token}`
+      }
+    )
+
+    console.log("GET ISNTRUCTOR COURSES IN INSTRUCTORDATA",response.data.courses)
+    result = response?.data.courses
+
+  } catch (error) {
+    console.log("Errpr here at InstructorData: ",error)
+  }
+  toast.dismiss(toastId)
+  return result;
+
 }
