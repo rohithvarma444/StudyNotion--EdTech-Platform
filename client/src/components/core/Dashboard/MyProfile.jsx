@@ -19,7 +19,7 @@ function MyProfile() {
     },[])
 
     return (
-        <div className='text-white p-8 bg-richblack-900 rounded-md max-w-4xl mx-auto items-center'>
+        <div className='text-white p-8 bg-richblack-900 rounded-md max-w-4xl mx-auto items-center flex flex-col'>
 
             {/* Profile Heading */}
             <h1 className='text-3xl font-bold mb-6'>
@@ -27,7 +27,7 @@ function MyProfile() {
             </h1>
             
             {/* Section 1: Profile Info */}
-            <div className='flex items-center justify-between mb-8 w-10/12'>
+            <div className='flex items-center justify-center mb-8 w-full bg-richblack-700 px-7 py-7 mx-auto rounded-md'>
                 <div className='flex items-center gap-x-4'>
                     <img 
                         src={user?.image}
@@ -44,18 +44,18 @@ function MyProfile() {
                 <IconBtn
                     text="Edit"
                     onclick={() => navigate("/dashboard/settings")}
-                    className='bg-yellow-500 hover:bg-yellow-600 text-richblack-900'
+                    customClasses='bg-yellow-500 hover:bg-yellow-600 text-richblack-900 ml-10 text-white px-2 py-2 rounded-md'
                 />
             </div>
 
             {/* Section 2: About */}
-            <div className='mb-8'>
-                <div className='flex justify-between items-center'>
+            <div className='mb-8 bg-richblack-700 rounded-md w-full p-5 '>
+                <div className='flex justify-between items-center gap-x-5'>
                     <p className='text-lg font-semibold'>About</p>
                     <IconBtn
                         text="Edit"
                         onclick={() => navigate("/dashboard/settings")}
-                        className='bg-yellow-500 hover:bg-yellow-600 text-richblack-900'
+                        customClasses='bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-md'
                     />
                 </div>
                 <p className='text-richblack-300 mt-2'>
@@ -64,18 +64,18 @@ function MyProfile() {
             </div>
 
             {/* Section 3: Personal Details */}
-            <div>
-                <div className='flex justify-between items-center mb-4'>
+            <div className='bg-richblack-700 p-5 rounded-md'>
+                <div className='flex justify-between items-center mb-4 '>
                     <p className='text-lg font-semibold'>Personal Details</p>
                     <IconBtn
                         text="Edit"
                         onclick={() => navigate("/dashboard/settings")}
-                        className='bg-yellow-500 hover:bg-yellow-600 text-richblack-900'
+                        customClasses='bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-md'
                     />
                 </div>
 
                 {/* Personal Details Grid */}
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-y-7 gap-x-10 '>
                     <div>
                         <p className='text-richblack-400'>First Name</p>
                         <p className='text-richblack-200'>{user?.firstName}</p>

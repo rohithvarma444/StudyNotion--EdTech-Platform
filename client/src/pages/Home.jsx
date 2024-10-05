@@ -10,7 +10,7 @@ import TimelineSection from '../components/core/HomePage/TimeLine'
 import LearningLanguageSection from '../components/core/HomePage/LearningLanguageSection'
 import InstructorSection from "../components/core/HomePage/InstructorSection"
 import Footer from '../components/common/Footer'
-
+import ReviewSlider from '../components/common/ReviewSlider'
 
 
 const Home = () => {
@@ -190,12 +190,22 @@ const Home = () => {
 
       </div>
 
+
+      
+
       {/*Section 3 */}
       <div className='flex flex-col w-11/12 mx-auto max-w-maxContent justify-between gap-8 first-letter  bg-richblack-900 text-white'>
 
         <InstructorSection />
 
-        <div className='text-4xl font-semibold text-center'>Review from other learners</div>
+
+        <div className='mt-10 flex flex-col gap-y-5 mb-10'>
+          <div className='text-4xl font-semibold text-center'>Review from other learners</div>
+          <div className='items-center w-11/12'>
+            <ReviewSlider />
+          </div>
+        </div>
+
 
       </div>
 

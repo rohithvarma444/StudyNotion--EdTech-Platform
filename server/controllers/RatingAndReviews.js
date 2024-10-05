@@ -116,6 +116,9 @@ exports.getAverageRating = async (req, res) => {
 //get allratingss
 exports.getAllRating = async (req, res) => {
     try {
+
+
+        console.log("I came till  here");
         const allReviews = await RatingAndReview.find({})
             .sort({ rating: "desc" })
             .populate({

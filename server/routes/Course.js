@@ -63,7 +63,7 @@ router.get("/showAllCategories",showAllCategories);
 router.post("/getCategoryPageDetails",categoryPageDetails);
 
 //ratings and reviews routes - tested
-router.post("/createRatings",auth,isStudent,createRatings);
+router.post("/createRating",auth,isStudent,createRatings);
 router.get("/getAverageRating",getAverageRating);
 router.get("/getReviews",getAllRating);
 

@@ -6,16 +6,16 @@ import Footer from "../../../common/Footer";
 
 export default function Settings(){
     return(
+        <>
         <div className="items-center text-white justify-center">
-        <h1 className="mb-14 text-3xl font-medium text-richblack-5 ">
+        <h1 className="mb-7 text-3xl font-medium text-richblack-5 p-3">
             Edit Profile
         </h1>
         <ChangeProfilePicture/>
         <EditProfile/>
         <UpdatePassword />
         <DeleteAccount/>
-        <Footer/>
-
         </div>
+        </>
     )
 }
