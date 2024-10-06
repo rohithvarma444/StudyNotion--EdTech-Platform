@@ -7,11 +7,10 @@ import { VscAdd } from 'react-icons/vsc';
 import CourseTable from './CoursesTable'; // Assuming you have a CourseTable component
 
 function MyCourses() {
-    // Create a state to store all the courses
     const { token } = useSelector((state) => state.auth);
     const navigate = useNavigate();
     const [courses, setCourses] = useState(null);
-    const [loading, setLoading] = useState(true); // Start with loading true
+    const [loading, setLoading] = useState(true); 
 
     // Fetch the courses using the token
     useEffect(() => {
@@ -32,12 +31,13 @@ function MyCourses() {
     return (
         <div className="mb-14 text-white">
             <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-medium text-richblack-5">My Courses</h1>
+                <h1 className="text-3xl font-medium text-richblack-5 mb-10 mt-10">My Courses</h1>
                 <IconBtn
                     text="Add Course"
                     onclick={() => navigate("/dashboard/add-course")}
+                    customClasses={'flex flex-row gap-x-2 text-black bg-yellow-100 p-2 rounded-lg'}
                 >
-                    <VscAdd />
+                    <VscAdd className='mt-1'/>
                 </IconBtn>
             </div>
 

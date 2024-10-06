@@ -37,7 +37,7 @@ function EditCourse() {
   }
 
   return (
-    <div>
+    <div className="text-white">
       <h1 className="mb-14 text-3xl font-medium text-richblack-5">
         Edit Course
       </h1>

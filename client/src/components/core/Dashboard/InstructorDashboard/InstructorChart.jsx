@@ -14,7 +14,6 @@ function InstructorChart({courses}) {
     const [currChart,setCurrChart] = useState("student")
     
 
-    //function to  generate radom colors
     const getRandomColors = (numOfColors) => {
         const colors = [];
         for(let i=0;i<numOfColors;i++){
@@ -58,26 +57,33 @@ function InstructorChart({courses}) {
     }
 
   return (
-    <div>
-        <p>Visualise</p>
-        <div className='flex gap-x-5'>
-            <button
-            onClick={() => setCurrChart("students")}
-            >
-                Student
-            </button>
-            <button
+    <div className="p-10 bg-gray-800 rounded-lg shadow-lg bg-richblack-700 p-5 w-full">
+    <h2 className="text-2xl font-bold text-white mb-4">Visualize</h2>
+    
+    <div className="flex gap-x-5 mb-5">
+        <button
+            onClick={() => setCurrChart("student")}
+            className={`px-4 py-2 rounded-lg font-semibold transition-colors duration-300 ${currChart === "student" ? 'bg-yellow-400 text-gray-800' : 'bg-gray-700 text-white hover:bg-gray-600'}`}
+        >
+            Students
+        </button>
+        
+        <button
             onClick={() => setCurrChart("income")}
-            >
-                Income
-            </button>
-        </div>
+            className={`px-4 py-2 rounded-lg font-semibold transition-colors duration-300 ${currChart === "income" ? 'bg-yellow-400 text-gray-800' : 'bg-gray-700 text-white hover:bg-gray-600'}`}
+        >
+            Income
+        </button>
+    </div>
 
+    <div className="flex justify-center">
         <Pie
-        data={currChart === "student" ? chartForStudents :  chartForIncome}
-        options={options}
+            data={currChart === "students" ? chartForStudents : chartForIncome}
+            options={options}
         />
     </div>
+</div>
+
   )
 }
 

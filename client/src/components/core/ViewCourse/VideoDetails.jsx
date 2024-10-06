@@ -6,6 +6,7 @@ import { updateCompletedLectures } from '../../../slices/viewCourseSlice';
 import { Player } from 'video-react';
 import { AiFillPlayCircle } from "react-icons/ai";
 import IconBtn from '../../common/IconBtn';
+import { FaSpinner } from 'react-icons/fa';
 
 function VideoDetails() {
     const { token } = useSelector((state) => state.auth);
@@ -82,7 +83,6 @@ function VideoDetails() {
 
     const handleLectureCompletion = async () => {
         setLoading(true);
-        console.log("Logging in here handleLectureCompletion");
         const res = await markLectureAsComplete({ courseId, subSectionId }, token);
         if (res) {
             dispatch(updateCompletedLectures(subSectionId));
@@ -91,29 +91,33 @@ function VideoDetails() {
     };
 
     return (
-        <div>
+        <div className="bg-gray-900 text-white p-5 rounded-lg shadow-lg relative">
             {loading ? (
-                <p>Loading...</p>
+                <div className="flex justify-center items-center h-full">
+                    <FaSpinner className="animate-spin text-3xl" />
+                </div>
             ) : (
                 <div>
                     {!videoData ? (
                         <div>No Data Found</div>
                     ) : (
-                        <Player
-                            ref={playerRef}
-                            aspectRatio='16:9'
-                            playsInline
-                            onEnded={() => setVideoEnded(true)}
-                            src={videoData.videoUrl}
-                        >
-                            <AiFillPlayCircle />
+                        <div className="relative">
+                            <Player
+                                ref={playerRef}
+                                aspectRatio='16:9'
+                                playsInline
+                                onEnded={() => setVideoEnded(true)}
+                                src={videoData.videoUrl}
+                                className="mb-4"
+                            />
                             {videoEnded && (
-                                <div>
+                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
                                     {!completedLectures.includes(subSectionId) && (
                                         <IconBtn
                                             disabled={loading}
                                             onclick={handleLectureCompletion}
                                             text={!loading ? "Mark As Completed" : "Loading..."}
+                                            customClasses="mb-2 bg-yellow-500 text-black rounded-lg p-2 hover:bg-yellow-600 transition duration-200"
                                         />
                                     )}
                                     <IconBtn
@@ -125,14 +129,14 @@ function VideoDetails() {
                                             }
                                         }}
                                         text="Rewatch"
-                                        customClasses="text-xl"
+                                        customClasses="mb-2 bg-blue-500 text-white rounded-lg p-2 hover:bg-blue-600 transition duration-200"
                                     />
-                                    <div>
+                                    <div className="flex space-x-4">
                                         {!isFirstVideo() && (
                                             <button
                                                 disabled={loading}
                                                 onClick={goToPrevVideo}
-                                                className='blackButton'
+                                                className='bg-gray-700 text-white rounded-lg p-2 hover:bg-gray-600 transition duration-200'
                                             >
                                                 Prev
                                             </button>
@@ -141,7 +145,7 @@ function VideoDetails() {
                                             <button
                                                 disabled={loading}
                                                 onClick={goToNextVideo}
-                                                className='blackButton'
+                                                className='bg-gray-700 text-white rounded-lg p-2 hover:bg-gray-600 transition duration-200'
                                             >
                                                 Next
                                             </button>
@@ -149,7 +153,7 @@ function VideoDetails() {
                                     </div>
                                 </div>
                             )}
-                        </Player>
+                        </div>
                     )}
                 </div>
             )}

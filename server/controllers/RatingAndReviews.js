@@ -34,7 +34,6 @@ exports.createRatings = async (req, res) => {
             });
         }
 
-        // Check if rating and review fields are provided
         if (!rating || !review) {
             return res.status(400).json({
                 success: false,
@@ -42,7 +41,6 @@ exports.createRatings = async (req, res) => {
             });
         }
 
-        // Create the rating and review
         const ratingReview = await RatingAndReview.create({
             rating,
             review,
@@ -50,7 +48,6 @@ exports.createRatings = async (req, res) => {
             user: user.id
         });
 
-        // Update the course with the new rating and review
         await Course.findByIdAndUpdate(courseId, {
             $push: {
                 ratingAndReviews: ratingReview._id
