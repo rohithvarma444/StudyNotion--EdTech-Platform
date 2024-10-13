@@ -20,12 +20,8 @@ function Dashboard() {
     return (
         <div className='flex min-h-[calc(100vh-3.5rem)]'>
             <Sidebar />
-            <div className='flex-grow overflow-auto'>
-                <div className='flex items-center justify-center min-h-full'>
-                    <div className='w-11/12 max-w-[1000px]'>
-                        <Outlet />
-                    </div>
-                </div>
+            <div className='flex-1 overflow-auto'>
+                <Outlet />
             </div>
         </div>
     )

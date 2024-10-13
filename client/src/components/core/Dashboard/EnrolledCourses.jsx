@@ -4,7 +4,6 @@ import { getEnrolledCourses as fetchEnrolledCourses } from '../../../services/op
 import ProgressBar from '@ramonak/react-progress-bar';
 import { useNavigate } from 'react-router-dom';
 import { BsClockFill } from "react-icons/bs";
-import Footer from '../../common/Footer';
 
 function EnrolledCourses() {
   const { token } = useSelector((state) => state.auth);
@@ -41,6 +40,7 @@ function EnrolledCourses() {
 
     const hours = Math.floor(totalDuration / 3600);
     const minutes = Math.floor((totalDuration % 3600) / 60);
+    console.log(course);
     
     return `${hours} H ${minutes} M`;
   };
@@ -49,50 +49,52 @@ function EnrolledCourses() {
   console.log(enrolledCourses)
 
   return (
-    <>
-    <div className='text-white flex flex-col items-center p-8'>
-      <div className='text-4xl mb-6 justify-start'>Enrolled Courses</div>
+    <div className='text-white w-10/12 mx-auto justify-center items-center'>
+      <h1 className='text-3xl font-medium mb-6 mt-10'>Enrolled Courses</h1>
       {!enrolledCourses ? (
         <div className='text-lg'>Loading...</div>
       ) : !enrolledCourses.length ? (
         <p className='text-lg'>You have not enrolled in any course yet.</p>
       ) : (
-        <div className='w-full max-w-full mx-auto'>
-          <div className='grid grid-cols-3 gap-x-10 border-b border-gray-600 pb-4 mb-4 text-lg font-semibold'>
-            <p>Course Name</p>
-            <p>Duration</p>
-            <p>Progress</p>
+        <div className='my-8'>
+          <div className='flex text-sm text-richblack-50'>
+            <p className='w-[45%]'>Course Name</p>
+            <p className='w-1/4 text-center'>Duration</p>
+            <p className='flex-1 text-center'>Progress</p>
           </div>
           {enrolledCourses.map((course, index) => (
-            <div key={index} className='grid grid-cols-3 gap-6 items-center mb-6 bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-richblack-600'
-            onClick={() => navigate(`/course/${course._id}`)}
-            
+            <div 
+              key={index} 
+              className='flex items-center border border-richblack-700 bg-richblack-800 p-4 my-4 rounded-lg cursor-pointer hover:bg-richblack-700 transition-all duration-200'
+              onClick={() => navigate(`/view-course/${course._id}/section/${course.courseContent?.[0]?._id}/sub-section/${course.courseContent?.[0]?.subSection?.[0]?._id}`)}
             >
-              <div className='flex items-center space-x-4'>
+              <div className='flex w-[45%] items-center gap-4'>
                 <img 
                   src={course.thumbnail} 
                   alt="Course Thumbnail" 
-                  className='w-20 h-20 object-cover rounded-md'
+                  className='h-14 w-14 rounded-lg object-cover'
                 />
-                <div>
-                  <p className='text-xl font-semibold'>{course.courseName}</p>
-                  <p className='text-sm text-gray-400'>{course.courseDescription}</p>
+                <div className='flex flex-col gap-2'>
+                  <p className='font-semibold'>{course.courseName}</p>
+                  <p className='text-xs text-richblack-300'>{course.courseDescription.split(" ").slice(0, 5).join(" ") + "..."}</p>
                 </div>
               </div>
 
-              <div className='text-center'>
-                <p className='text-lg font-semibold flex flex-row gap-2'> <BsClockFill /> {calculateDuration(course)}   </p>
+              <div className='w-1/4 text-center'>
+                <p className='text-sm font-medium flex justify-center items-center gap-2'>
+                  <BsClockFill />
+                  {calculateDuration(course)}
+                </p>
               </div>
 
-              <div>
-                <p className='text-lg font-semibold mb-2'>Progress: {course.progressPercentage || 0}%</p>
+              <div className='flex-1'>
+                <p className='text-sm font-medium text-center mb-2'>Progress: {course.progressPercentage || 0}%</p>
                 <ProgressBar
                   completed={course.progressPercentage || 0}
-                  height='10px'
-                  bgColor='#34D399'
-                  baseBgColor='#2D3748'
+                  height='8px'
                   isLabelVisible={false}
-                  className='rounded-full'
+                  bgColor='#17a34a'
+                  baseBgColor='#2C333F'
                 />
               </div>
             </div>
@@ -100,7 +102,6 @@ function EnrolledCourses() {
         </div>
       )}
     </div>
-    </>
   );
 }
 

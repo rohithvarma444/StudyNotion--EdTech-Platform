@@ -26,19 +26,18 @@ exports.updateCourseProgress = async (req, res) => {
             });
         }
 
-        // Ensure completedVideos is initialized as an array
-        if (!courseProgress.completedVideos) {
-            courseProgress.completedVideos = [];
+        if (!courseProgress.completedVideo) {
+            courseProgress.completedVideo = [];
         }
 
-        if (courseProgress.completedVideos.includes(subSectionId)) {
+        if (courseProgress.completedVideo.includes(subSectionId)) {
             return res.status(400).json({
                 success: false,
                 message: "Subsection already completed"
             });
         }
 
-        courseProgress.completedVideos.push(subSectionId);
+        courseProgress.completedVideo.push(subSectionId);
         await courseProgress.save();
 
         return res.status(200).json({

@@ -4,7 +4,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { markLectureAsComplete } from '../../../services/operations/courseDetailsAPI';
 import { updateCompletedLectures } from '../../../slices/viewCourseSlice';
 import { Player } from 'video-react';
-import { AiFillPlayCircle } from "react-icons/ai";
 import IconBtn from '../../common/IconBtn';
 import { FaSpinner } from 'react-icons/fa';
 
@@ -12,7 +11,6 @@ function VideoDetails() {
     const { token } = useSelector((state) => state.auth);
     const { courseId, sectionId, subSectionId } = useParams();
     const dispatch = useDispatch();
-    const location = useLocation();
     const playerRef = useRef();
     const { courseSectionData, completedLectures } = useSelector((state) => state.viewCourse);
     const navigate = useNavigate();
@@ -24,18 +22,15 @@ function VideoDetails() {
     useEffect(() => {
         const setVideoSpecificDetails = async () => {
             if (!courseSectionData.length) return;
-
             if (!courseId || !sectionId || !subSectionId) {
                 navigate("/dashboard/enrolled-courses");
                 return;
             }
-
             const filteredData = courseSectionData.filter(course => course._id === sectionId);
             const filteredVideoData = filteredData?.[0].subSection.filter(data => data._id === subSectionId);
             setVideoData(filteredVideoData[0] || null);
             setVideoEnded(false);
         };
-
         setVideoSpecificDetails();
     }, [courseSectionData, courseId, sectionId, subSectionId, navigate]);
 
@@ -91,71 +86,79 @@ function VideoDetails() {
     };
 
     return (
-        <div className="bg-gray-900 text-white p-5 rounded-lg shadow-lg relative">
+        <div className="flex flex-col space-y-4 text-white">
             {loading ? (
-                <div className="flex justify-center items-center h-full">
-                    <FaSpinner className="animate-spin text-3xl" />
+                <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
+                    <FaSpinner className="animate-spin text-3xl text-yellow-50" />
                 </div>
             ) : (
-                <div>
+                <>
                     {!videoData ? (
-                        <div>No Data Found</div>
-                    ) : (
-                        <div className="relative">
-                            <Player
-                                ref={playerRef}
-                                aspectRatio='16:9'
-                                playsInline
-                                onEnded={() => setVideoEnded(true)}
-                                src={videoData.videoUrl}
-                                className="mb-4"
-                            />
-                            {videoEnded && (
-                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
-                                    {!completedLectures.includes(subSectionId) && (
-                                        <IconBtn
-                                            disabled={loading}
-                                            onclick={handleLectureCompletion}
-                                            text={!loading ? "Mark As Completed" : "Loading..."}
-                                            customClasses="mb-2 bg-yellow-500 text-black rounded-lg p-2 hover:bg-yellow-600 transition duration-200"
-                                        />
-                                    )}
-                                    <IconBtn
-                                        disabled={loading}
-                                        onClick={() => {
-                                            if (playerRef.current) {
-                                                playerRef.current.seek(0);
-                                                setVideoEnded(false);
-                                            }
-                                        }}
-                                        text="Rewatch"
-                                        customClasses="mb-2 bg-blue-500 text-white rounded-lg p-2 hover:bg-blue-600 transition duration-200"
-                                    />
-                                    <div className="flex space-x-4">
-                                        {!isFirstVideo() && (
-                                            <button
-                                                disabled={loading}
-                                                onClick={goToPrevVideo}
-                                                className='bg-gray-700 text-white rounded-lg p-2 hover:bg-gray-600 transition duration-200'
-                                            >
-                                                Prev
-                                            </button>
-                                        )}
-                                        {!isLastVideo() && (
-                                            <button
-                                                disabled={loading}
-                                                onClick={goToNextVideo}
-                                                className='bg-gray-700 text-white rounded-lg p-2 hover:bg-gray-600 transition duration-200'
-                                            >
-                                                Next
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
+                        <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
+                            No Video Data Found
                         </div>
+                    ) : (
+                        <>
+                            <h1 className="text-3xl font-semibold">{videoData.title}</h1>
+                            <div className="relative aspect-video">
+                                <Player
+                                    ref={playerRef}
+                                    aspectRatio="16:9"
+                                    playsInline
+                                    onEnded={() => setVideoEnded(true)}
+                                    src={videoData.videoUrl}
+                                />
+                                {videoEnded && (
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-richblack-900 bg-opacity-90">
+                                        <div className="flex flex-col items-center space-y-4">
+                                            {!completedLectures.includes(subSectionId) && (
+                                                <IconBtn
+                                                    disabled={loading}
+                                                    onclick={handleLectureCompletion}
+                                                    text={loading ? "Loading..." : "Mark As Completed"}
+                                                    customClasses="text-xl"
+                                                />
+                                            )}
+                                            <IconBtn
+                                                disabled={loading}
+                                                onClick={() => {
+                                                    if (playerRef.current) {
+                                                        playerRef.current.seek(0);
+                                                        setVideoEnded(false);
+                                                    }
+                                                }}
+                                                text="Rewatch"
+                                                customClasses="text-xl"
+                                            />
+                                            <div className="flex space-x-4">
+                                                {!isFirstVideo() && (
+                                                    <button
+                                                        disabled={loading}
+                                                        onClick={goToPrevVideo}
+                                                        className='bg-richblack-800 text-richblack-25 px-4 py-2 rounded-md hover:bg-richblack-700 transition-all duration-200'
+                                                    >
+                                                        Prev
+                                                    </button>
+                                                )}
+                                                {!isLastVideo() && (
+                                                    <button
+                                                        disabled={loading}
+                                                        onClick={goToNextVideo}
+                                                        className='bg-yellow-50 text-richblack-900 px-4 py-2 rounded-md hover:bg-yellow-100 transition-all duration-200'
+                                                    >
+                                                        Next
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <h2 className="text-2xl font-semibold mt-4">Description:</h2>
+                            <p className="text-richblack-50">{videoData.description}</p>
+                        </>
                     )}
-                </div>
+                </>
             )}
         </div>
     );

@@ -53,9 +53,9 @@ function UpdatePassword() {
                                 className="absolute right-3 top-[38px] z-[10] cursor-pointer"
                             >
                                 {showOldPassword ? (
-                                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+                                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" className='relative bottom-1' />
                                 ) : (
-                                    <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                                    <AiOutlineEye fontSize={24} fill="#AFB2BF" className='relative bottom-1' />
                                 )}
                             </span>
                             {errors.oldPassword && (

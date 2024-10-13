@@ -4,6 +4,12 @@ const Profile = require("../models/Profile");
 const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 
+const convertSecondsToDuration = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    return `${hours}h ${minutes}m`;
+};
+
 //updating user Profile
 exports.updateProfile = async (req, res) => {
 	try {
@@ -150,38 +156,69 @@ exports.updateDisplayPicture = async (req, res) => {
 exports.getEnrolledCourses = async (req, res) => {
     try {
         const userId = req.user.id;
-        const userDetails = await User.findById(userId).populate({
-            path: "courses",
-            populate: {
-                path: "courseContent",
+        let userDetails = await User.findOne({ _id: userId })
+            .populate({
+                path: "courses",
                 populate: {
-                    path: "subSection"
-                }
+                    path: "courseContent",
+                    populate: {
+                        path: "subSection",
+                    },
+                },
+            })
+            .exec();
+
+        userDetails = userDetails.toObject();
+        
+        for (let i = 0; i < userDetails.courses.length; i++) {
+            let totalDurationInSeconds = 0;
+            let subSectionLength = 0;
+            
+            for (let j = 0; j < userDetails.courses[i].courseContent.length; j++) {
+                totalDurationInSeconds += userDetails.courses[i].courseContent[j].subSection.reduce(
+                    (acc, curr) => acc + parseInt(curr.timeDuration), 0
+                );
+                subSectionLength += userDetails.courses[i].courseContent[j].subSection.length;
             }
-        });
+            
+            userDetails.courses[i].totalDuration = convertSecondsToDuration(totalDurationInSeconds);
+            
+            const courseProgressCount = await CourseProgress.findOne({
+                courseId: userDetails.courses[i]._id,
+                userId: userId,
+            });
 
-
-
-        
-        
+            console.log("COURSE PROGRESS COUNT")
+            console.log("-------------- -----------------------")
+            console.log(courseProgressCount)
+            
+            const completedVideos = courseProgressCount?.completedVideo.length || 0;
+            
+            userDetails.courses[i].progressPercentage = subSectionLength === 0 ? 100 :
+                Math.round((completedVideos / subSectionLength) * 100 * 100) / 100;
+        }
 
         if (!userDetails) {
             return res.status(404).json({
                 success: false,
-                message: "User not found or unable to fetch courses",
+                message: `Could not find user with id: ${userId}`,
             });
         }
-
+        console.log("USER DETAILS")
+        console.log(userDetails.courses)
         return res.status(200).json({
             success: true,
-            message: "Successfully fetched the courses",
             data: userDetails.courses,
         });
+
+
+        
     } catch (error) {
         console.error("Error occurred while fetching enrolled courses", error);
         return res.status(500).json({
             success: false,
             message: "An error occurred while fetching the courses",
+            error: error.message,
         });
     }
 };

@@ -38,10 +38,12 @@ function ViewCourse() {
     }, [courseId, token, dispatch]);
 
     return (
-        <div className="flex">
+        <div className="flex relative min-h-[calc(100vh-3.5rem)]">
             <VideoDetailsSidebar setReviewModal={setReviewModal} />
-            <div className="flex-grow p-4">
-                <Outlet />
+            <div className="flex-1 overflow-auto bg-richblack-900">
+                <div className="mx-6">
+                    <Outlet />
+                </div>
             </div>
             {reviewModal && <CourseReviewModal setReviewModal={setReviewModal} />}
         </div>
