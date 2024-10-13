@@ -25,28 +25,25 @@ function RenderSteps() {
     },
   ]
 
+
+
   return (
     <>
-      <div>
-        {steps.map((items) => (
-          <div key={items.id}>
+      <div className='flex justify-between mr-10'>
+        {steps.map((item) => (
+          <div key={item.id} className='flex flex-col items-center'>
             <div
               className={`${
-                step === items.id
+                step === item.id
                   ? "bg-yellow-900 border-yellow-50 text-yellow-50"
                   : "border-richblack-700 bg-richblack-800 text-richblack-300"
-              }`}
+              } rounded-full w-10 h-10 flex items-center justify-center border border-richblack-700 mb-2`}
             >
-              {step > items.id ? <FaCheck /> : items.id}
+              {step > item.id ? <FaCheck /> : item.id}
             </div>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        {steps.map((item) => (
-          <div key={item.id}>
-            <p>{item.title}</p>
+            <p className={`text-center ${step === item.id ? "text-yellow-50" : "text-richblack-300"}`}>
+              {item.title}
+            </p>
           </div>
         ))}
       </div>

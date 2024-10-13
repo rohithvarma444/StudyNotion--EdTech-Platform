@@ -3,6 +3,7 @@ import { studentEndpoints } from "../apis";
 import { apiConnector } from "../apiconnector";
 import { setPaymentLoading } from "../../slices/courseSlice";
 import { resetCart } from "../../slices/cartSlice";
+import { FaCreditCard } from 'react-icons/fa';
 
 const { COURSE_PAYMENT_API, COURSE_VERIFY_API, SEND_PAYMENT_SUCCESS_EMAIL_API } = studentEndpoints;
 
@@ -23,7 +24,53 @@ function loadScript(src) {
 
 export async function buyCourse(token, courses, userDetails, navigate, dispatch) {
     try {
-        // Load the Razorpay SDK
+        // Show custom toast and wait for dismissal or timeout
+        await new Promise((resolve) => {
+            toast.custom(
+                (t) => (
+                    <div className={`${
+                        t.visible ? 'animate-enter' : 'animate-leave'
+                    } max-w-md w-full bg-richblack-600 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+                    >
+                        <div className="flex-1 w-0 p-4">
+                            <div className="flex items-start">
+                                <div className="flex-shrink-0 pt-0.5">
+                                    <FaCreditCard className="h-10 w-10 text-yellow-50" />
+                                </div>
+                                <div className="ml-3 flex-1">
+                                    <p className="text-sm font-medium text-yellow-50">
+                                        Demo Payment Info
+                                    </p>
+                                    <p className="mt-1 text-sm text-richblack-300">
+                                        Use this card for testing:
+                                    </p>
+                                    <p className="mt-1 text-sm font-semibold text-yellow-50">
+                                        4111 1111 1111 1111
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex border-l border-richblack-700">
+                            <button
+                                onClick={() => {
+                                    toast.dismiss(t.id);
+                                    resolve();
+                                }}
+                                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-yellow-50 hover:text-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-50"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                ),
+                {
+                    duration: 10000,
+                    onClose: resolve
+                }
+            );
+        });
+
+        // Load the Razorpay SDK after toast is dismissed
         const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
         if (!res) {

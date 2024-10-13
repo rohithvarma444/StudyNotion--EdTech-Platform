@@ -21,7 +21,6 @@ exports.createRatings = async (req, res) => {
             });
         }
 
-        // Check if the user has already reviewed the course
         const alreadyReviewed = await RatingAndReview.findOne({
             user: user.id,
             course: courseId
@@ -59,7 +58,7 @@ exports.createRatings = async (req, res) => {
             message: "Course reviewed successfully",
             ratingReview
         });
-
+        console
     } catch (error) {
         console.log("Error while creating rating and review:", error);
         return res.status(500).json({

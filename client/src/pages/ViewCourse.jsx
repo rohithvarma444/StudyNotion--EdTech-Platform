@@ -6,6 +6,7 @@ import { Outlet } from 'react-router-dom';
 import VideoDetailsSidebar from '../components/core/ViewCourse/VideoDetailsSideBar';
 import CourseReviewModal from '../components/core/ViewCourse/CourseReviewModal';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 function ViewCourse() {
     const [reviewModal, setReviewModal] = useState(false);
@@ -15,18 +16,24 @@ function ViewCourse() {
 
     useEffect(() => {
         const setCourseSpecificDetails = async () => {
-            const courseData = await getFullDetailsOfCourse(courseId, token);
-            if (courseData) {
-                dispatch(setCourseSectionData(courseData.courseDetails.courseContent));
-                dispatch(setEntireCourseData(courseData.courseDetails));
-                dispatch(setCompletedLectures(courseData.completedVideos));
-                let lectures = 0;
-                courseData?.courseDetails?.courseContent?.forEach((section) => {
-                    lectures += section.subSection.length;
-                });
-                dispatch(setTotalNoOfLectures(lectures));
+            try {
+                const courseData = await getFullDetailsOfCourse(courseId, token);
+                if (courseData) {
+                    dispatch(setCourseSectionData(courseData.courseDetails.courseContent));
+                    dispatch(setEntireCourseData(courseData.courseDetails));
+                    dispatch(setCompletedLectures(courseData.completedVideos));
+                    let lectures = 0;
+                    courseData?.courseDetails?.courseContent?.forEach((section) => {
+                        lectures += section.subSection.length;
+                    });
+                    dispatch(setTotalNoOfLectures(lectures));
+                }
+            } catch (error) {
+                console.error("Error fetching course details:", error);
+                toast.error("Failed to load course details");
             }
         };
+
         setCourseSpecificDetails();
     }, [courseId, token, dispatch]);
 

@@ -46,7 +46,7 @@ const LearningGridArray = [
 
 const LearningGrid = () => {
   return (
-    <div className="grid mx-auto w-[350px] xl:w-fit grid-cols-1 xl:grid-cols-4 mb-12">
+    <div className="grid mx-auto w-[350px] xl:w-fit grid-cols-1 xl:grid-cols-4 mb-12 justify-center items-center p-10">
       {LearningGridArray.map((card, i) => {
         return (
           <div
@@ -60,7 +60,7 @@ const LearningGrid = () => {
             } ${card.order === 3 && "xl:col-start-2"}  `}
           >
             {card.order < 0 ? (
-              <div className="xl:w-[90%] flex flex-col gap-3 pb-10 xl:pb-0">
+              <div className="xl:w-[90%] flex flex-col gap-3 pb-10 xl:pb-0 ml-10 relative left-10 top-10">
                 <div className="text-4xl font-semibold ">
                   {card.heading}
                   <HighlightText text={card.highlightText} />

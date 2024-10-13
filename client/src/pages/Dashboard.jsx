@@ -11,23 +11,24 @@ function Dashboard() {
 
     if(profileLoading || authLoading){
         return(
-            <div className='mt-10 '>
+            <div className='flex items-center justify-center h-screen'>
                 Loading...
             </div>
         )
     }
 
-  return (
-    <div className='relative flex min-h-[calc(100vh-3.5rem)]'>
-        <Sidebar />
-        <div className='h-[calc(100vh - 3.5rem)] overflow-auto'>
-            <div className='mx-auto w-11/12 max-w-[1000px]'>
-                <Outlet />
-
+    return (
+        <div className='flex min-h-[calc(100vh-3.5rem)]'>
+            <Sidebar />
+            <div className='flex-grow overflow-auto'>
+                <div className='flex items-center justify-center min-h-full'>
+                    <div className='w-11/12 max-w-[1000px]'>
+                        <Outlet />
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default Dashboard

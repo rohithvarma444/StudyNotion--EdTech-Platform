@@ -177,11 +177,13 @@ function CourseDetails() {
                 <p className="text-richblack-50">
                     {instructor?.additionalDetails?.about}
                 </p>
+
+
+                
             </div>
 
             {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
             
-            {/* Footer Section */}
             <div className="w-full">
                 <Footer />
             </div>

@@ -309,8 +309,9 @@ export default function CourseInformationForm() {
         <IconBtn
           disabled={loading}
           text={!editCourse ? "Next" : "Save Changes"}
+          customClasses="flex flex-row bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-md"
         >
-          <MdNavigateNext />
+          <MdNavigateNext className="relative top-1 left-1" />
         </IconBtn>
       </div>
     </form>

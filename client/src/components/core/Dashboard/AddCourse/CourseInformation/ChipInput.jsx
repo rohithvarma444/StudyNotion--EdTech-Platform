@@ -53,7 +53,7 @@ export default function ChipInput({
 
   // Render the component
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 text-black">
       {/* Render the label for the input */}
       <label className="text-sm text-richblack-5" htmlFor={name}>
         {label} <sup className="text-pink-200">*</sup>

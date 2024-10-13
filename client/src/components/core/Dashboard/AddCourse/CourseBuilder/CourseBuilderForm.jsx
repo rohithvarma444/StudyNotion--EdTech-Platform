@@ -129,12 +129,12 @@ function CourseBuilderForm() {
         <button
           type="button"
           onClick={goBack}
-          className="rounded-md cursor-pointer flex items-center"
+          className="rounded-md cursor-pointer flex items-center mr-1"
         >
           Back
         </button>
-        <IconBtn  text="Next" onclick={goToNext}>
-          <MdNavigateNext />
+        <IconBtn  text="Next" onclick={goToNext} customClasses={'flex flex-row bg-yellow-500 hover:bg-yellow-600 text-black p-2 rounded-md'}>
+          <MdNavigateNext className='relative top-1 left-1' />
         </IconBtn>
       </div>
     </div>
