@@ -13,7 +13,6 @@ const convertSecondsToDuration = (totalSeconds) => {
 //updating user Profile
 exports.updateProfile = async (req, res) => {
 	try {
-        console.log("received")
         const {
             firstName,
             lastName,
@@ -23,14 +22,12 @@ exports.updateProfile = async (req, res) => {
             about,
         } = req.body
 
-        console.log("PARSED")
 
         const userId = req.user.id;
 
         const userDetails = await User.findById(userId);
         const profileDetails = await Profile.findById(userDetails.additionalDetails)
 
-        console.log("GOT MODELS")
         if(!userDetails){
             return res.status(404).json({
                 success: false,
@@ -38,28 +35,19 @@ exports.updateProfile = async (req, res) => {
             })
         }
         if(!profileDetails){
-            console.log("got wrong model profile")
         }
 
         userDetails.firstName = firstName;
-        console.log(firstName);
         userDetails.lastName = lastName;
-        console.log(firstName);
 
         profileDetails.dateOfBirth = dateOfBirth;
-        console.log(typeof dateOfBirth);
-        console.log(firstName);
         profileDetails.gender = gender;
-        console.log(firstName);
         profileDetails.contactNumber = contactNumber;
-        console.log(firstName);
         profileDetails.about = about;
-        console.log(firstName);
 
         await profileDetails.save();
         await userDetails.save();
 
-        console.log("REACHED HERE")
 
 
         const updatedUserDetails = await User.findById(userId).
@@ -67,7 +55,6 @@ exports.updateProfile = async (req, res) => {
         .populate("courses")
         .populate("courseProgress").exec();
 
-        console.log("Finally sent this: ",updatedUserDetails);
 
         return res.status(200).json({
             success:true,
@@ -90,7 +77,6 @@ exports.getAllUserDetails = async(req,res) => {
         .populate("courses")
         .populate("completedCourses")
         .exec()
-        console.log(userDetails);
 
         return res.status(200).json({
             success: true,
@@ -128,7 +114,6 @@ exports.updateDisplayPicture = async (req, res) => {
             1000
         );
 
-        console.log(image);
 
         // Update user profile with new image URL
         const updatedProfile = await User.findByIdAndUpdate(
@@ -137,7 +122,6 @@ exports.updateDisplayPicture = async (req, res) => {
             { new: true }
         ).populate("additionalDetails").populate("courses").populate("courseProgress");
 
-        console.log("User Details",updatedProfile);
         return res.status(200).json({
             success: true,
             message: "Image updated successfully",
@@ -187,10 +171,6 @@ exports.getEnrolledCourses = async (req, res) => {
                 courseId: userDetails.courses[i]._id,
                 userId: userId,
             });
-
-            console.log("COURSE PROGRESS COUNT")
-            console.log("-------------- -----------------------")
-            console.log(courseProgressCount)
             
             const completedVideos = courseProgressCount?.completedVideo.length || 0;
             
@@ -204,8 +184,6 @@ exports.getEnrolledCourses = async (req, res) => {
                 message: `Could not find user with id: ${userId}`,
             });
         }
-        console.log("USER DETAILS")
-        console.log(userDetails.courses)
         return res.status(200).json({
             success: true,
             data: userDetails.courses,
@@ -227,7 +205,6 @@ exports.getEnrolledCourses = async (req, res) => {
 exports.instructorDashboard = async (req, res) => {
 
 
-    console.log("I am Here at instructorDashboard");
     try {
         const userId = req.user.id;
         const courseDetails = await Course.find({
@@ -246,11 +223,6 @@ exports.instructorDashboard = async (req, res) => {
                 totalAmountGenerated,
             };
         });
-
-
-        console.log("----------------------------------")
-        console.log(courseData);
-        console.log("------------------------------")
 
         res.status(200).json({
             success: true,

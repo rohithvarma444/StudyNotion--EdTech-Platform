@@ -15,8 +15,6 @@ exports.createCourse = async (req, res) => {
     // Get user ID from request object
     const userId = req.user.id
 
-    console.log("THis is body",req.body)
-    console.log("These are files",req.files)
     // Get all required fields from request body
     let {
       courseName,
@@ -35,7 +33,6 @@ exports.createCourse = async (req, res) => {
     const tag = JSON.parse(_tag)
     const instructions = JSON.parse(_instructions)
 
-    console.log("1");
 
     // Check if any of the required fields are missing
     if (
@@ -53,7 +50,6 @@ exports.createCourse = async (req, res) => {
         message: "All Fields are Mandatory",
       })
     }
-    console.log("2");
     if (!status || status === undefined) {
       status = "Draft"
     }
@@ -61,7 +57,6 @@ exports.createCourse = async (req, res) => {
     const instructorDetails = await User.findById(userId, {
       accountType: "Instructor",
     })
-    console.log("3");
     if (!instructorDetails) {
       return res.status(404).json({
         success: false,
@@ -70,7 +65,6 @@ exports.createCourse = async (req, res) => {
     }
 
     // Check if the tag given is valid
-    console.log("3");
     const categoryDetails = await Category.findById(category)
     if (!categoryDetails) {
       return res.status(404).json({
@@ -82,10 +76,7 @@ exports.createCourse = async (req, res) => {
       thumbnail,
       process.env.FOLDER_NAME
     )
-    console.log(thumbnailImage)
 
-    console.log("4");
-    console.log("CAT  ID: ",categoryDetails._id);
     const newCourse = await Course.create({
       courseName,
       courseDescription,
@@ -99,7 +90,6 @@ exports.createCourse = async (req, res) => {
       instructions,
     })
 
-    console.log("5");
     // Add the new course to the User Schema of the Instructor
     await User.findByIdAndUpdate(
       {
@@ -122,7 +112,6 @@ exports.createCourse = async (req, res) => {
       },
       { new: true }
     )
-    console.log("HEREEEEEEEE", categoryDetails2)
     // Return the new course and a success message
     res.status(200).json({
       success: true,
@@ -280,7 +269,6 @@ exports.editCourse = async (req, res) => {
 exports.getFullCourseDetails = async (req, res) => {
     try {
       const { courseId } = req.body;
-      console.log(req.user);
       const userId = req.user.id;
   
       // Fetch course details and populate necessary fields
@@ -399,7 +387,6 @@ exports.deleteCourse = async (req, res) => {
 
 exports.getInstructorCourses = async (req, res) => {
     try {
-      console.log("I am being called-----------------------------------------------------------------------------------------")
       const userId = req.user.id;
   
       const userDetails = await User.findById(userId)

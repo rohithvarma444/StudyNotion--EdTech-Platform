@@ -7,7 +7,6 @@ import 'swiper/css/free-mode';
 import { Pagination, Autoplay, Navigation } from 'swiper/modules';
 
 function CourseSlider({ Courses }) {
-  console.log("In Course Slider: ",Courses)
   return (
     <div>
       {Courses && Courses.length ? (

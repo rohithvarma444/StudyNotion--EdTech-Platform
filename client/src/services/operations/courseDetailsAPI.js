@@ -367,8 +367,6 @@ export const fetchInstructorCourses = async (token) => {
         }
       )
 
-      console.log("Get Full Course Details: ",response.data.data)
-      console.log("COURSE_FULL_DETAILS_API API RESPONSE............", response)
   
       if (!response.data.success) {
         throw new Error(response.data.message)
@@ -377,10 +375,9 @@ export const fetchInstructorCourses = async (token) => {
     } catch (error) {
       console.log("COURSE_FULL_DETAILS_API API ERROR............", error)
       result = error.response.data
-      // toast.error(error.response.data.message);
+      toast.error(error.response.data.message);
     }
     toast.dismiss(toastId)
-    //   dispatch(setLoading(false));
     return result
   }
   
@@ -414,23 +411,35 @@ export const fetchInstructorCourses = async (token) => {
   
   // create a rating for course
   export const createRating = async (data, token) => {
-    const toastId = toast.loading("Loading...")
-    let success = false
+    const toastId = toast.loading("Submitting review...")
     try {
       const response = await apiConnector("POST", CREATE_RATING_API, data, {
         Authorization: `Bearer ${token}`,
       })
-      console.log("CREATE RATING API RESPONSE............", response)
-      if (!response?.data?.success) {
-        throw new Error("Could Not Create Rating")
+      
+      if (response.status === 200) {
+        toast.success("Course reviewed successfully")
+        return { success: true, data: response.data.ratingReview }
       }
-      toast.success("Rating Created")
-      success = true
+
+      if (response.status === 400 || response.status === 404) {
+        toast.error(response.data.message)
+        return { success: false, message: response.data.message }
+      }
+
+    throw new Error(response.data.message || "Could not create rating")
     } catch (error) {
-      success = false
-      console.log("CREATE RATING API ERROR............", error)
-      toast.error(error.message)
+      if(error.status === 400){
+        toast.error("You have already reviewed this course")
+        return { success: false, message: "Error creating rating. Please try again." }
+      }
+      if(error.status === 404){
+        toast.error("User is not enrolled in this course")
+        return { success: false, message: "User is not enrolled in this course" }
+      }
+      
+      
+    } finally { 
+      toast.dismiss(toastId)
     }
-    toast.dismiss(toastId)
-    return success
   }

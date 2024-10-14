@@ -8,14 +8,16 @@ exports.createRatings = async (req, res) => {
         const user = req.user;
         const { rating, review, courseId } = req.body;
 
-        // Check if the user has buyed the course
         const courseDetails = await Course.findOne({
             _id: courseId,
             studentsEnrolled: { $elemMatch: { $eq: user.id } }
         });
 
+
+
         if (!courseDetails) {
-            return res.status(400).json({
+            console.log("User not enrolled in this course");
+            return res.status(404).json({
                 success: false,
                 message: "User not enrolled in this course"
             });
@@ -26,7 +28,9 @@ exports.createRatings = async (req, res) => {
             course: courseId
         });
 
+
         if (alreadyReviewed) {
+            console.log("User has already reviewed this course");
             return res.status(400).json({
                 success: false,
                 message: "User has already reviewed this course"
@@ -34,6 +38,7 @@ exports.createRatings = async (req, res) => {
         }
 
         if (!rating || !review) {
+            console.log("All fields are required");
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
@@ -46,6 +51,8 @@ exports.createRatings = async (req, res) => {
             course: courseId,
             user: user.id
         });
+
+        console.log("ratingReview",ratingReview);
 
         await Course.findByIdAndUpdate(courseId, {
             $push: {
@@ -114,7 +121,6 @@ exports.getAllRating = async (req, res) => {
     try {
 
 
-        console.log("I came till  here");
         const allReviews = await RatingAndReview.find({})
             .sort({ rating: "desc" })
             .populate({

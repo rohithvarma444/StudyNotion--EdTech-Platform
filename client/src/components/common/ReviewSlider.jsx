@@ -23,9 +23,6 @@ const ReviewSlider = () => {
 
   return (
     <div className="text-white mx-auto w-[70%] items-center justify-between">
-      <h1 className='text-4xl font-semibold text-center mb-10 text-richblack-500'>
-          Reviews From Our Students
-        </h1>
       <div className="h-[210px] max-w-maxContent justify-center items-center">
         <Swiper
           slidesPerView={3}  

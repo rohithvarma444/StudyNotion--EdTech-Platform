@@ -13,6 +13,7 @@ function Catalog() {
     const [catalogPageData, setCatalogPageData] = useState(null);
     const [categoryId, setCategoryId] = useState(null);
     const { catalogName } = useParams();
+    const [ newCourses, setNewCourses ] = useState(null);
 
     // Fetch categories to get the categoryId
     useEffect(() => {
@@ -81,23 +82,27 @@ function Catalog() {
                 <div className="mb-12">
                     <h2 className="text-2xl font-bold mb-4">Courses to get you started</h2>
                     <div className="flex gap-x-3 mb-4">
-                        <button className="bg-yellow-50 text-richblack-900 px-4 py-2 rounded-md">Most Popular</button>
-                        <button className="bg-richblack-700 text-richblack-50 px-4 py-2 rounded-md">New</button>
+                        <button className={`${!newCourses? 'bg-yellow-50 text-richblack-900 px-4 py-2 rounded-md':'bg-richblack-700 text-richblack-50 px-4 py-2 rounded-md'}`}
+                        onClick={() => setNewCourses(false)}
+                        >Most Popular</button>
+                        <button className={`${newCourses? 'bg-yellow-50 text-richblack-900 px-4 py-2 rounded-md':'bg-richblack-700 text-richblack-50 px-4 py-2 rounded-md'}`}
+                        onClick={() => setNewCourses(true)}
+                        >New</button>
                     </div>
-                    <CourseSlider Courses={catalogPageData?.data?.selectedCategory?.courses} />
+                    <CourseSlider Courses={ !newCourses ? catalogPageData?.data?.selectedCategoryPopularCourses : catalogPageData?.data?.selectedCategoryNewCourses} />
                 </div>
 
                 {/* Top Courses in Category */}
                 <div className="mb-12">
                     <h2 className="text-2xl font-bold mb-4">Top Courses in {catalogPageData?.data?.selectedCategory?.name}</h2>
-                    <CourseSlider Courses={catalogPageData?.data?.differentCategory?.courses} />
+                    <CourseSlider Courses={catalogPageData?.data?.selectedCategoryPopularCourses} />
                 </div>
 
                 {/* Frequently Bought */}
                 <div>
                     <h2 className="text-2xl font-bold mb-4">Frequently Bought</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {catalogPageData?.data?.mostSellingCourses?.slice(0, 6).map((course, index) => (
+                        {catalogPageData?.data?.topOverallCourses?.slice(0, 6).map((course, index) => (
                             <CourseCard course={course} key={index} />
                         ))}
                     </div>

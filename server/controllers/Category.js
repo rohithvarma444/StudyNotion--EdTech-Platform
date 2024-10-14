@@ -50,72 +50,82 @@ exports.showAllCategories = async(req,res) => {
 }
 
 //create category page details
-exports.categoryPageDetails = async(req,res) => {
-    try{
+exports.categoryPageDetails = async (req, res) => {
+    try {
         const { categoryId } = req.body;
-        console.log("1");
 
-        if(!categoryId){
+        if (!categoryId) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required",
-            })
+            });
         }
 
+        // Fetch the selected category with populated courses and instructors
         const selectedCategory = await Category.findById(categoryId).populate({
             path: 'courses',
-            populate: {
-                path: 'instructor'
-            }
+            populate: [
+                { path: 'instructor' },
+                { path: 'ratingAndReviews' }
+            ]
         });
 
-        if(!selectedCategory){
+        if (!selectedCategory) {
             return res.status(404).json({
-                success:false,
-                message: "Courses not found for this category",
-            })
+                success: false,
+                message: "Category not found",
+            });
         }
-        console.log("1");
-        const differentCourses = await Category.find({
-            _id: { $ne: categoryId }
-        }).populate({
-            path:"courses",
-            populate: {
-                path: 'instructor'
-            }
-        })
 
-        const allCourses = await Course.find({ status: "Published" }).populate([
-            {
-                path: "ratingAndReviews"
-            },
-            {
-                path: "instructor"
-            }
-        ]).exec();
-
-        console.log("1");
-        const topCourses = allCourses
+        // Get popular courses of the selected category
+        const selectedCategoryPopularCourses = selectedCategory.courses
             .sort((a, b) => b.studentsEnrolled.length - a.studentsEnrolled.length)
             .slice(0, 10);
 
-            console.log("1");
+        // Get new courses of the selected category
+        const selectedCategoryNewCourses = selectedCategory.courses
+            .sort((a, b) => b.createdAt - a.createdAt)
+            .slice(0, 10);
+
+        // Fetch courses from different categories with more students enrolled
+        const differentCourses = await Category.find({
+            _id: { $ne: categoryId }
+        }).populate({
+            path: "courses",
+            populate: [
+                { path: 'instructor' },
+                { path: 'ratingAndReviews' }
+            ]
+        });
+
+        // Flatten and sort courses from different categories
+        const otherPopularCourses = differentCourses
+            .flatMap(category => category.courses)
+            .sort((a, b) => b.studentsEnrolled.length - a.studentsEnrolled.length)
+            .slice(0, 10);
+
+        // Fetch top 10 courses overall
+        const topOverallCourses = await Course.find({ status: "Published" })
+            .populate(['instructor', 'ratingAndReviews'])
+            .sort({ studentsEnrolled: -1 })
+            .limit(10);
+
         return res.status(200).json({
             success: true,
-            data:{
+            data: {
                 selectedCategory,
-                differentCourses,
-                topCourses
+                selectedCategoryPopularCourses,
+                selectedCategoryNewCourses,
+                otherPopularCourses,
+                topOverallCourses
             },
-        })
+        });
 
-
-
-    } catch(error){
-        console.log("Error occured during fetching of courses by category",error);
+    } catch (error) {
+        console.log("Error occurred during fetching of courses by category", error);
         return res.status(500).json({
             success: false,
-            message: "Error during fetching courses by cateogry",
-        })
+            message: "Error during fetching courses by category",
+        });
     }
 }

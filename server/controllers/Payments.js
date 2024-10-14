@@ -12,9 +12,7 @@ const CourseProgress = require("../models/CourseProgress")
 
 // Capturing the payment
 exports.capturePayment = async (req, res) => {
-    console.log("--------------------------------------");
-    console.log("Here In Payment: ", req.body);
-    console.log("--------------------------------------");
+
     
     const { courses } = req.body;
     const userId = req.user;
@@ -53,7 +51,6 @@ exports.capturePayment = async (req, res) => {
 
         // Create an order instance
         const paymentResponse = await instance.orders.create(options);
-        console.log("Payment Response: ", paymentResponse); // Log payment response for debugging
         return res.status(200).json({ success: true, message: paymentResponse });
     } catch (error) {
         console.error(error);
@@ -78,9 +75,6 @@ exports.verifyPayment = async (req, res) => {
     if (expectedSignature === razorpay_signature) {
         try {
 
-            console.log("--------------------------------");
-            console.log("Signature Verified");
-            console.log("---------------------------------")
             await enrollStudents(courses, userId);
             return res.status(200).json({ success: true, message: "Payment verified and students enrolled" });
         } catch (error) {
@@ -93,7 +87,6 @@ exports.verifyPayment = async (req, res) => {
 };
 
 const enrollStudents = async (courses, userId) => {
-    console.log("Am I reaching here?");
     for (const courseId of courses) {
         try {
             const enrolledCourse = await Course.findOneAndUpdate(
@@ -106,14 +99,12 @@ const enrollStudents = async (courses, userId) => {
                 throw new Error("Course not found");
             }
 
-            console.log("Step-1 ")
             const courseProgress = await CourseProgress.create({
                 courseId: courseId,
                 userId: userId,
                 completedVideo: [],
             });
 
-            console.log("Step-2");
             const enrolledStudent = await User.findByIdAndUpdate(
                 userId,
                 {
@@ -125,7 +116,6 @@ const enrollStudents = async (courses, userId) => {
                 { new: true }
             );
 
-            console.log("Step-3");
             if (enrolledStudent) {
                 await mailSender(
                     enrolledStudent.email,

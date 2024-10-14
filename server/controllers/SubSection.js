@@ -18,7 +18,6 @@ exports.createSubSection = async (req, res) => {
           .status(404)
           .json({ success: false, message: "All Fields are Required" })
       }
-      console.log(video)
   
       const uploadDetails = await uploadImageToCloudinary(
         video,
@@ -51,7 +50,6 @@ exports.createSubSection = async (req, res) => {
 //update subSection
 exports.updateSubSection = async(req,res) => {
     try {
-        console.log("TOKEN-----: ",req.headers.authorization);
         const {subSectionId,title,timeDuration,description} = req.body;
         
         const subSection = await SubSection.findById(subSectionId);
@@ -75,14 +73,12 @@ exports.updateSubSection = async(req,res) => {
         }
         
         await subSection.save();
-        console.log(subSection);
 
         return res.status(200).json({
             success: true,
             message: "Sub section updated successfully",
         })
     } catch (error) {
-        console.log("Error in updating the subsection",error);
         return res.status(500).json({
             success:false,
             message: "Error occured during updating the subsection",

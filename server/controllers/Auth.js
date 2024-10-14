@@ -27,7 +27,6 @@ exports.sendOTP = async(req,res) => {
             lowerCaseAlphabets: false,
             specialChars: false,
         });
-        console.log(`OTP generated: `,otp);
 
 
         let unique = await OTP.findOne({otp: otp})
@@ -44,7 +43,6 @@ exports.sendOTP = async(req,res) => {
 
          const otpPayload = {email,otp};
          const otpBody = await OTP.create(otpPayload);
-         console.log(otpBody);
 
          res.status(200).json({
             success:true,
@@ -76,8 +74,6 @@ exports.signUp = async(req,res) => {
     
     
         // checking for input fields
-        console.log("OTP in the backend: ",otp)
-        console.log("email in the backend: ",email);
         if( !firstName || !lastName || !password || !confirmPassword || !otp){
             return res.status(403).json({
                 success: false,
@@ -97,7 +93,6 @@ exports.signUp = async(req,res) => {
         // check if the user already exsists
         const checkIfUserExsists = await User.findOne({email});
         if(checkIfUserExsists){
-            console.log("User already exsists");
             return res.status(400).json({
                 status: false,
                 message: 'User already exists',
@@ -113,8 +108,6 @@ exports.signUp = async(req,res) => {
                 message: "OTP not valid"
             })
         } else if(otp != recentOTP[0].otp){
-            console.log("Recent OTP: ",recentOTP[0].otp)
-            console.log("OTP: ",otp);
             return res.status(400).json({
                 success:false,
                 message: "Invalid OTP",
@@ -141,7 +134,6 @@ exports.signUp = async(req,res) => {
             image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName}${lastName}`
         })
 
-        console.log("Registration successfull");
         return res.status(200).json({
             success:true,
             message:'User is successfully registered'
@@ -224,7 +216,6 @@ exports.signIn = async(req,res) => {
 exports.changePassword = async (req, res) => {
     try {
         const { oldPassword, newPassword, confirmPassword, email } = req.body;
-        console.log(req.body);
 
         if (!oldPassword || !newPassword || !confirmPassword) {
             return res.status(400).json({
@@ -240,15 +231,15 @@ exports.changePassword = async (req, res) => {
             });
         }
 
-        //const sendPasswordResetEmail = async (email) => {
-        //    try {
-        //        const mailResponse = await mailSender(email, "Password reset mail sent successfully");
-        //        console.log("Email sent successfully", mailResponse);
-        //    } catch (error) {
-        //        console.log("Error while sending password reset email:", error);
-        //        throw error;
-        //    }
-        //}
+        const sendPasswordResetEmail = async (email) => {
+            try {
+                const mailResponse = await mailSender(email, "Password reset mail sent successfully");
+                console.log("Email sent successfully", mailResponse);
+            } catch (error) {
+                console.log("Error while sending password reset email:", error);
+                throw error;
+            }
+        }
 
         const user = await User.findById(req.user.id);
         if (await bcrypt.compare(oldPassword, user.password)) {
