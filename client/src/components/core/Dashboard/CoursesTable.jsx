@@ -42,7 +42,6 @@ function CoursesTable({ courses, setCourses }) {
     let totalDuration = 0;
 
 
-    console.log(course);
     course.courseContent.forEach(content => {
       content.subSection.forEach(subSec => {
           totalDuration += parseFloat(subSec.timeDuration); // Convert to number
@@ -55,7 +54,6 @@ function CoursesTable({ courses, setCourses }) {
     return `${hours} H ${minutes} M`;
   };
 
-  console.log("In the Main Page: ",courses[0].courseContent[0].subSection[0].timeDuration);
 
 
   return (

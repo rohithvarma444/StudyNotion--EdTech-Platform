@@ -7,8 +7,8 @@ import { GoDotFill } from "react-icons/go";
 
 function AddCourse() {
   return (
-    <div className='flex flex-col justify-evenly md:flex-row gap-5 mt-5 p-3'>
-        <div  className='text-white flex flex-col gap-5 md:w-[60%]'>
+    <div className='flex flex-col justify-evenly md:flex-row gap-5 mt-5 p-6'>
+        <div  className='text-white flex flex-col gap-5 md:w-[60%] p-4'>
 
             <h1 className='text-3xl font-bold text-center'>Add Course</h1>
 

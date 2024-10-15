@@ -25,13 +25,11 @@ export function updateDispalyPicture(token, formData) {
                     Authorization: `Bearer ${token}`,
                 }
             );
-            console.log("UPDATE_DISPLAY_PICTURE_API RESPONSE.............", response);
 
             if (!response.data.success) {
                 throw new Error(response.data.message);
             }
             toast.success("Display Picture Updated Successfully");
-            console.log("Updated DP: ", response.data.data)
             dispatch(setUser(response.data.data));
             localStorage.setItem("user",JSON.stringify(response.data.data));
 
@@ -55,7 +53,6 @@ export function updateProfile(token, formData) {
         if (!response.data.success) {
           throw new Error(response.data.message)
         }
-        console.log("Check me Here: ",response.data.data)
 
         dispatch(setUser(response.data.data));
         localStorage.setItem("user",JSON.stringify(response.data.data));

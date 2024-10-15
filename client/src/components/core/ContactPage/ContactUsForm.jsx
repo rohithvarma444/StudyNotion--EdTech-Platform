@@ -1,41 +1,44 @@
 import React, { useEffect, useState } from 'react'
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import CountryCode from "../../../data/countrycode.json"
 import { apiConnector } from '../../../services/apiconnector';
 import { contactusEndpoint } from '../../../services/apis';
 
-
 function ContactUsForm() {
     const [loading, setLoading] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState(null);
     const {
         register,
         handleSubmit,
         reset,
-        formState : {errors,isSubmitSuccessful}
+        formState: { errors, isSubmitSuccessful }
     } = useForm();
 
     useEffect(() => {
-        if(isSubmitSuccessful){
+        if (isSubmitSuccessful) {
             reset({
-                email:"",
-                firstname:"",
-                lastname:"",
-                message:"",
-                phoneNo:"",
+                email: "",
+                firstname: "",
+                lastname: "",
+                message: "",
+                phoneNo: "",
             })
         }
-    },[reset, isSubmitSuccessful]);
+    }, [reset, isSubmitSuccessful]);
 
-    const submitContactForm = async(data)  => {
+    const submitContactForm = async (data) => {
         try {
             setLoading(true);
-            console.log(data);
-            const res  = apiConnector("POST",contactusEndpoint.CONTACT_US_API,data);
-
-            setLoading(false);
-            console.log(res);
+            setSubmitStatus(null);
+            const res = await apiConnector("POST", contactusEndpoint.CONTACT_US_API, data);
+            if (res.status === 200) {
+                setSubmitStatus('success');
+            } else {
+                setSubmitStatus('error');
+            }
         } catch (error) {
-            console.log("Error in sending api request for contact us form");
+            setSubmitStatus('error');
+        } finally {
             setLoading(false);
         }
     }
@@ -164,6 +167,13 @@ function ContactUsForm() {
                     </span>
                 )}
             </div>
+
+            {submitStatus === 'success' && (
+                <p className="text-green-500">Message sent successfully!</p>
+            )}
+            {submitStatus === 'error' && (
+                <p className="text-red-500">An error occurred. Please try again later.</p>
+            )}
 
             <button
                 disabled={loading}

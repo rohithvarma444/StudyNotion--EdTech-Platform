@@ -132,7 +132,6 @@ function App() {
             user?.accountType === ACCOUNT_TYPE.STUDENT && (
               
               <>
-              {console.log("Here Check")}
               <Route path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
               element={<VideoDetails />} />
               </>

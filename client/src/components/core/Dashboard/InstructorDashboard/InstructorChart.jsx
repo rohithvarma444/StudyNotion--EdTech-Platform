@@ -57,7 +57,7 @@ function InstructorChart({courses}) {
     }
 
   return (
-    <div className="p-10 bg-gray-800 rounded-lg shadow-lg bg-richblack-700 p-5 w-full">
+    <div className="p-10 bg-gray-800 rounded-lg shadow-lg bg-richblack-700 p-5 w-full ">
     <h2 className="text-2xl font-bold text-white mb-4">Visualize</h2>
     
     <div className="flex gap-x-5 mb-5">

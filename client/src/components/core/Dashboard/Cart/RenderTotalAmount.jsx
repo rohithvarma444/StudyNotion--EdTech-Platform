@@ -10,7 +10,6 @@ function RenderTotalAmount() {
 
     const handleBuyCourse = async () => {
         const courses = cart.map((course) => course._id);
-        console.log(courses);
     }
   return (
     <div>

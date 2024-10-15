@@ -37,7 +37,7 @@ function Instructor() {
     const totalStudents = instructorData?.reduce((acc, curr) => acc + curr.totalStudentsEnrolled, 0);
 
     return (
-        <div className='text-white p-2 flex flex-col gap-y-5'>
+        <div className='text-white p-2 flex flex-col gap-y-5 p-8'>
             <div className='p-3'>
                 <h1 className='text-2xl'>Hi {user?.firstName}</h1>
                 <p className='text-richblack-100'>Let's start something new</p>
@@ -46,7 +46,7 @@ function Instructor() {
             {loading ? (
                 <div className='spinner'></div>
             ) : courses.length > 0 ? (
-                <div>
+                <div className='p-5'>
                     <div className='flex flex-row gap-x-5 w-full'>
                         <InstructorChart courses={instructorData} />
                         <div className="ml-10 p-5 bg-gray-800 rounded-lg shadow-lg bg-richblack-700 p-6 w-5/12">

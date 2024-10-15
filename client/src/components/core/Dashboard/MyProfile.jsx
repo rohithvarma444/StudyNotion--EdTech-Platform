@@ -12,7 +12,6 @@ function MyProfile() {
     useEffect(() => {
         const getUserFullDetails = async() => {
             const response = getUserDetails(token,navigate)
-            console.log("In My Profile",response)
         }
         getUserFullDetails();
     },[])

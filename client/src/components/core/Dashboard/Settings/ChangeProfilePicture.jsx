@@ -38,7 +38,6 @@ function ChangeProfilePicture() {
 
     const handleFileUpload = () => {
         try {
-            console.log("Making API request");
             setLoading(true);
             const formData = new FormData();
             formData.append("displayPicture", imageFile);
@@ -88,9 +87,10 @@ function ChangeProfilePicture() {
                         <IconBtn
                             text={loading ? "Uploading..." : "Upload"}
                             onclick={handleFileUpload}
+                            customClasses={loading ? "opacity-50 cursor-not-allowed" : "flex flex-row bg-yellow-500 p-2 rounded-md"}
                         >
                             {!loading && (
-                                <FiUpload className="text-lg text-richblack-900" />
+                                <FiUpload className="text-lg text-white relative left-2" />
                             )}
                         </IconBtn>
                     </div>

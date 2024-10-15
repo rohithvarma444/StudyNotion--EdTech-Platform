@@ -18,7 +18,6 @@ function CourseBuilderForm() {
   const [editSectionName, setEditSectionName] = useState(null);
 
   useEffect(() => {
-    console.log("Updated");
   }, [course]);
 
   const cancelEdit = () => {
@@ -27,7 +26,6 @@ function CourseBuilderForm() {
   };
 
   const goToNext = () => {
-    console.log("I am triggered");
     if (course.courseContent.length === 0) {
       dispatch(setStep(3))
       toast.error("Please add at least one Section");

@@ -54,7 +54,6 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
         }
     };
 
-    console.log("Here in the course Content Page: ",course.courseContent);
 
     return (
         <div className='p-4 bg-richblack-700 rounded-lg flex flex-col gap-3'>

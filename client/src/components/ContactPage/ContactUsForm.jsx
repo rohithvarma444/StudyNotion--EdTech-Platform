@@ -15,7 +15,6 @@ const ContactUsForm = () => {
   } = useForm()
 
   const submitContactForm = async (data) => {
-    // console.log("Form Data - ", data)
     try {
       setLoading(true)
       const res = await apiConnector(
@@ -23,7 +22,6 @@ const ContactUsForm = () => {
         contactusEndpoint.CONTACT_US_API,
         data
       )
-      // console.log("Email Res - ", res)
       setLoading(false)
     } catch (error) {
       console.log("ERROR MESSAGE - ", error.message)

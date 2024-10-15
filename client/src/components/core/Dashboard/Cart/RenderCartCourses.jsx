@@ -11,7 +11,6 @@ function RenderCartCourses() {
 
   // Dummy function for rating change
   const ratingChanged = (newRating) => {
-    console.log(newRating);
   };
 
   return (

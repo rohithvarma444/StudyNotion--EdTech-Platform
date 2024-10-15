@@ -19,21 +19,16 @@ export function sendOtp(email, navigate) {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
     try {
-        console.log("Heyyyy");
       const response = await apiConnector("POST", SENDOTP_API, {
         email,
         checkUserPresent: true,
       })
-      console.log(response);
-      console.log("SENDOTP API RESPONSE............", response)
 
-      console.log(response.data.success)
 
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
 
-      console.log("OTP sent ");
       toast.success("OTP Sent Successfully")
       navigate("/verify-email")
     } catch (error) {
@@ -69,7 +64,6 @@ export function signUp(
         otp,
       })
 
-      console.log("SIGNUP API RESPONSE............", response)
 
       if (!response.data.success) {
         throw new Error(response.data.message)
@@ -96,16 +90,11 @@ export function login(email, password, navigate) {
         password,
       })
 
-      console.log(response)
-
-      console.log("LOGIN API RESPONSE............", response)
-
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
 
       toast.success("Login Successful")
-      console.log(response.data.token);
       dispatch(setToken(response.data.token))
       const userImage = response.data?.user?.image
         ? response.data.user.image
@@ -132,7 +121,6 @@ export function getPasswordResetToken(email, setEmailSent) {
         email,
       })
 
-      console.log("RESETPASSTOKEN RESPONSE............", response)
 
       if (!response.data.success) {
         throw new Error(response.data.message)
@@ -160,14 +148,11 @@ export function resetPassword(password, confirmPassword, token, navigate) {
         token,
       })
 
-      console.log("RESETPASSWORD RESPONSE............", response)
-
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
 
       toast.success("Password Reset Successfully")
-      console.log("reset success");
       navigate("/login");
     } catch (error) {
       console.log("RESETPASSWORD ERROR............", error)

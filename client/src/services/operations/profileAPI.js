@@ -27,7 +27,6 @@ export function getUserDetails(token, navigate) {
         throw new Error(response.data.message);
       }
 
-      console.log("Logging for allUserDetails",response.data.data);      
       dispatch(setUser(response.data.data));
     } catch (error) {
       toast.error("Could not get the User Details");
@@ -110,7 +109,6 @@ export async function getInstructorData(token){
       }
     )
 
-    console.log("GET ISNTRUCTOR COURSES IN INSTRUCTORDATA",response.data.courses)
     result = response?.data.courses
 
   } catch (error) {

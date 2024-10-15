@@ -23,7 +23,6 @@ function EditProfile() {
     
       const submitProfileForm = async (data) => {
 
-        console.log("This is the DATA: ",data)
         try {
           dispatch(updateProfile(token,data))
         } catch (error) {

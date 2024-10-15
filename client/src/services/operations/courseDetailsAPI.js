@@ -105,7 +105,6 @@ export const addCourseDetails = async (data, token) => {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     })
-    console.log("CREATE COURSE API RESPONSE............", response)
     if (!response?.data?.success) {
       throw new Error("Could Not Add Course Details")
     }
@@ -120,7 +119,6 @@ export const addCourseDetails = async (data, token) => {
 }
 export const editCourseDetails = async (data, token) => {
 
-  console.log("Course Details till now:",data);
     let result = null
     const toastId = toast.loading("Loading...")
     try {
@@ -128,7 +126,6 @@ export const editCourseDetails = async (data, token) => {
         "Content-Type": "multipart/form-data",
         Authorisation: `Bearer ${token}`,
       })
-      console.log("EDIT COURSE API RESPONSE............", response)
       if (!response?.data?.success) {
         throw new Error("Could Not Update Course Details")
       }
@@ -202,7 +199,6 @@ export const createSubSection = async (data, token) => {
 export const updateSection = async (data, token) => {
     const toastId = toast.loading("Loading...");
     let result = null;
-    console.log(token);
     try {
         const response = await apiConnector(
             'POST',
@@ -314,7 +310,6 @@ export const deleteCourse = async (data, token) => {
       const response = await apiConnector("DELETE", DELETE_COURSE_API, data, {
         Authorization: `Bearer ${token}`,
       })
-      console.log("DELETE COURSE API RESPONSE............", response)
       if (!response?.data?.success) {
         throw new Error("Could Not Delete Course")
       }
@@ -338,7 +333,6 @@ export const fetchInstructorCourses = async (token) => {
           Authorization: `Bearer ${token}`,
         }
       )
-      console.log("INSTRUCTOR COURSES API RESPONSE............", response)
       if (!response?.data?.success) {
         throw new Error("Could Not Fetch Instructor Courses")
       }
@@ -384,16 +378,11 @@ export const fetchInstructorCourses = async (token) => {
   // mark a lecture as complete
   export const markLectureAsComplete = async (data, token) => {
     let result = null
-    console.log("mark complete data", data)
     const toastId = toast.loading("Loading...")
     try {
       const response = await apiConnector("POST", LECTURE_COMPLETION_API, data, {
         Authorization: `Bearer ${token}`,
       })
-      console.log(
-        "MARK_LECTURE_AS_COMPLETE_API API RESPONSE............",
-        response
-      )
   
       if (!response.data.message) {
         throw new Error(response.data.error)

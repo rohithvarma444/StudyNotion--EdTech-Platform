@@ -29,7 +29,7 @@ function MyCourses() {
         fetchCourses();
     }, []);
     return (
-        <div className="mb-14 text-white">
+        <div className="mb-14 text-white items-center justify-center mx-auto p-4">
             <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-medium text-richblack-5 mb-10 mt-10">My Courses</h1>
                 <IconBtn

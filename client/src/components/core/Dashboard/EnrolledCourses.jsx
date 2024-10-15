@@ -31,7 +31,6 @@ function EnrolledCourses() {
     let totalDuration = 0;
 
 
-    console.log(course);
     course.courseContent.forEach(content => {
       content.subSection.forEach(subSec => {
           totalDuration += parseFloat(subSec.timeDuration); 
@@ -40,13 +39,11 @@ function EnrolledCourses() {
 
     const hours = Math.floor(totalDuration / 3600);
     const minutes = Math.floor((totalDuration % 3600) / 60);
-    console.log(course);
     
     return `${hours} H ${minutes} M`;
   };
 
 
-  console.log(enrolledCourses)
 
   return (
     <div className='text-white w-10/12 mx-auto justify-center items-center'>
