@@ -19,8 +19,8 @@ dotenv.config();
 const PORT = process.env.PORT || 4000;
 
 db.connect();
-app.use(express.json()); // Corrected
-app.use(cookieParser()); // Corrected
+app.use(express.json()); 
+app.use(cookieParser()); 
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true,

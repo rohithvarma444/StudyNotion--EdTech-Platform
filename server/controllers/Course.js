@@ -401,7 +401,6 @@ exports.getInstructorCourses = async (req, res) => {
       });
   
       if (!userDetails) {
-        console.log("No such Instructor");
         return res.status(403).json({
           success: false,
           message: "No such user found to fetch courses",

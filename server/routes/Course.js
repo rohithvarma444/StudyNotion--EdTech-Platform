@@ -58,7 +58,7 @@ router.post("/updateSubSection",auth,isInstructor,updateSubSection);
 router.post("/deleteSubSection",auth,isInstructor,deleteSubSection);
 
 //category routes - tested
-router.post("/createCategory",createCategory);
+router.post("/createCategory",auth,isAdmin,createCategory);
 router.get("/showAllCategories",showAllCategories);
 router.post("/getCategoryPageDetails",categoryPageDetails);
 

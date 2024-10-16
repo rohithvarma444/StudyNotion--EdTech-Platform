@@ -16,7 +16,6 @@ exports.createRatings = async (req, res) => {
 
 
         if (!courseDetails) {
-            console.log("User not enrolled in this course");
             return res.status(404).json({
                 success: false,
                 message: "User not enrolled in this course"
@@ -30,7 +29,6 @@ exports.createRatings = async (req, res) => {
 
 
         if (alreadyReviewed) {
-            console.log("User has already reviewed this course");
             return res.status(400).json({
                 success: false,
                 message: "User has already reviewed this course"
@@ -38,7 +36,6 @@ exports.createRatings = async (req, res) => {
         }
 
         if (!rating || !review) {
-            console.log("All fields are required");
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
@@ -52,7 +49,6 @@ exports.createRatings = async (req, res) => {
             user: user.id
         });
 
-        console.log("ratingReview",ratingReview);
 
         await Course.findByIdAndUpdate(courseId, {
             $push: {
@@ -139,7 +135,6 @@ exports.getAllRating = async (req, res) => {
             data: allReviews,
         });
     } catch (error) {
-        console.log("Error while fetching all ratings:", error);
         return res.status(500).json({
             success: false,
             message: "Failed to fetch reviews, please try again later",
