@@ -22,7 +22,7 @@ db.connect();
 app.use(express.json()); 
 app.use(cookieParser()); 
 app.use(cors({
-    origin: ["https://studynotion-mengw5msw-rohithvarma444s-projects.vercel.app","https://study-notion-backend-0s6t.onrender.com"],
+    origin: ["https://studynotion-50bs0r6r3-rohithvarma444s-projects.vercel.app","https://study-notion-backend-0s6t.onrender.com"],
     credentials: true
 }));
 
