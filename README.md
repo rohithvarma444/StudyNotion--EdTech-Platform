@@ -1,7 +1,5 @@
 # StudyNotion - Modern EdTech Platform
 
-![StudyNotion Logo](client/public/logo.png)
-
 StudyNotion is a comprehensive educational technology platform that revolutionizes the way students learn and educators teach. Built with modern technologies and best practices, it provides a seamless learning experience for all users.
 
 ## 🌐 Live Demo
