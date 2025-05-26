@@ -4,7 +4,7 @@ StudyNotion is a comprehensive educational technology platform that revolutioniz
 
 ## 🌐 Live Demo
 
-Visit our production environment at: [StudyNotion Platform](https://studynotion-50bs0r6r3-rohithvarma444s-projects.vercel.app)
+Visit our production environment at: [StudyNotion Platform]([https://studynotion-50bs0r6r3-rohithvarma444s-projects.vercel.app](https://study-notion-ed-tech-platform-git-main-rohithvarma444s-projects.vercel.app/))
 
 ## 🚀 Features
 
