@@ -16,6 +16,7 @@ exports.auth = async(req,res,next) => {
             })
         }
 
+        console.log(token);
         try{
             const decode = jwt.verify(token,process.env.JWT_SECRET);
             req.user = decode;
@@ -75,6 +76,7 @@ exports.isAdmin = async(req,res,next) => {
 //Instructor middleware
 exports.isInstructor = async(req,res,next) => {
     try {
+
         if(req.user.accountType !== "Instructor"){
             return res.status(401).json({
                 success: false,

@@ -15,6 +15,8 @@ exports.sendOTP = async(req,res) => {
 
         const checkUserPresent = await User.findOne({email});
 
+        console.log(checkUserPresent);
+
         if(checkUserPresent){
             return res.status(401).json({
                 success: false,
@@ -92,6 +94,9 @@ exports.signUp = async(req,res) => {
     
         // check if the user already exsists
         const checkIfUserExsists = await User.findOne({email});
+
+        console.log(checkIfUserExsists);
+        //if user already exsists then send a failure response to the user to
         if(checkIfUserExsists){
             return res.status(400).json({
                 status: false,
@@ -99,6 +104,7 @@ exports.signUp = async(req,res) => {
 
             });
         }
+
     
         //checking for valid OTP
         const recentOTP = await OTP.find({email: email}).sort({created_at : -1}).limit(1);
@@ -152,6 +158,7 @@ exports.signUp = async(req,res) => {
 exports.signIn = async(req,res) => {
     try {
         const { email,password } = req.body;
+
 
 
         //check for empty-fields

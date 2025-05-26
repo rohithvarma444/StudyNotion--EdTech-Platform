@@ -5,6 +5,7 @@ const Course = require("../models/Course");
 exports.createCategory = async(req,res) => {
 
     try {
+        console.log("inside category controller");
         const { name,description } = req.body;
         if(!name || !description) {
             return res.status(400).json({
